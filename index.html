@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>📚 校园羊了个羊 · 学霸堆栈乐 🎒</title>
+    <style>
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #2f6b47 0%, #1d3e2a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Poppins', 'Press Start 2P', system-ui, 'Comic Neue', cursive;
+            padding: 20px;
+        }
+
+        /* 游戏主面板 — 校园黑板报风格 */
+        .game-container {
+            background: #fef1cf;
+            backdrop-filter: blur(2px);
+            border-radius: 72px;
+            padding: 22px 20px 28px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 250, 200, 0.8);
+            border: 2px solid #ffda99;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 48px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4), inset 0 0 0 4px #fff3cf;
+            background: #fff7e8;
+            cursor: pointer;
+            width: 100%;
+            height: auto;
+            max-width: 700px;
+        }
+
+        .info-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 25px;
+            margin-top: 20px;
+            padding: 8px 28px;
+            background: #2e2a1ed9;
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            border: 1px solid #ffe3a3;
+        }
+
+        .score-card {
+            background: #1e2a1a;
+            border-radius: 56px;
+            padding: 5px 20px;
+            font-family: monospace;
+            font-weight: bold;
+            box-shadow: inset 0 1px 4px #00000033, 0 5px 10px #0000002e;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: #ffe2a4;
+            background: #8b5a2b;
+            padding: 3px 14px;
+            border-radius: 50px;
+            margin-right: 12px;
+            letter-spacing: 1px;
+        }
+
+        .score-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffefb9;
+            text-shadow: 0 2px 0 #67471f;
+        }
+
+        .slot-warning {
+            background: #392e1d;
+            padding: 5px 18px;
+            border-radius: 44px;
+            color: #fedc83;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button {
+            background: #ffbc5e;
+            border: none;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 7px 25px;
+            border-radius: 60px;
+            color: #2f2412;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #9b5e2c;
+            transition: 0.06s linear;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        button:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #9b5e2c;
+        }
+        .tip {
+            margin-top: 14px;
+            background: #f5e6c4e6;
+            backdrop-filter: blur(4px);
+            border-radius: 44px;
+            padding: 7px 16px;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #3a2c18;
+            font-weight: bold;
+        }
+
+        @media (max-width: 550px) {
+            .score-number {
+                font-size: 1.4rem;
+            }
+            button {
+                font-size: 0.85rem;
+                padding: 5px 16px;
+            }
+            .slot-warning {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="650" height="550"></canvas>
+        <div class="info-area">
+            <div class="score-card">
+                <span class="score-label">📖 知识积分</span>
+                <span class="score-number" id="scoreValue">0</span>
+            </div>
+            <div class="slot-warning">
+                🎒 待办槽位: <span id="slotCount">0</span>/7
+            </div>
+            <button id="resetGameBtn">🏫 新的一课</button>
+        </div>
+        <div class="tip">
+            🧸 点击校园物品 → 放入底部「待办槽」 | 凑齐3件相同物品 → 完成作业+得分！槽位满7则会挂科 😢 <br>
+            📚 多层堆叠卡牌考验规划力，先拿上层更轻松！笔、书本、苹果、奖杯、书包、咖啡 —— 全科制霸！
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        // ---------- 画布元素 ----------
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreSpan = document.getElementById('scoreValue');
+        const slotCountSpan = document.getElementById('slotCount');
+        
+        // 固定宽高
+        const W = 650, H = 550;
+        canvas.width = W;
+        canvas.height = H;
+        
+        // ---------- 校园主题配置 ----------
+        const MAX_SLOT = 7;              // 槽位上限 (羊了个羊核心机制)
+        const CARD_TYPES = 6;           // 六种校园物品
+        
+        // 校园风图案与配色
+        const CARD_ITEMS = [
+            "✏️ 铅笔",    // 1
+            "📘 课本",    // 2
+            "🍎 苹果",    // 3
+            "🏆 奖杯",    // 4
+            "🎒 书包",    // 5
+            "☕ 咖啡"     // 6 (熬夜学习必备)
+        ];
+        const CARD_COLORS = [
+            "#e0b05c", // 铅笔木色
+            "#4d7c8c", // 课本蓝
+            "#e35f45", // 苹果红
+            "#e8b338", // 奖杯金
+            "#6b4c3b", // 书包棕
+            "#a5673f"  // 咖啡暖棕
+        ];
+        const CARD_ICONS = ["✏️", "📘", "🍎", "🏆", "🎒", "☕"];
+        
+        // 堆叠网格 (5行 x 4列 = 20个网格，每个格子有多张卡片堆叠，模仿羊了个羊多层)
+        let boardStacks = [];     // boardStacks[row][col] = [卡片类型id数组] (从底向上)
+        let slotCards = [];        // 当前槽位存放的卡片id (1~6)
+        let totalScore = 0;        
+        let gameOver = false;      // 游戏结束标志 (槽位满或通关)
+        
+        const GRID_ROWS = 5;
+        const GRID_COLS = 4;
+        
+        // ---------- 辅助函数 ----------
+        function countTotalRemainCards() {
+            let cnt = 0;
+            for(let r=0; r<GRID_ROWS; r++){
+                for(let c=0; c<GRID_COLS; c++){
+                    cnt += boardStacks[r][c].length;
+                }
+            }
+            return cnt;
+        }
+        
+        function updateScoreUI(){
+            scoreSpan.innerText = totalScore;
+        }
+        
+        function updateSlotUI(){
+            slotCountSpan.innerText = `${slotCards.length}/${MAX_SLOT}`;
+            // 槽位样式危险提醒
+            const slotDiv = document.querySelector('.slot-warning');
+            if(slotCards.length >= MAX_SLOT-1){
+                slotDiv.style.background = "#a13e2ddd";
+                slotDiv.style.color = "#ffebaf";
+            } else {
+                slotDiv.style.background = "#392e1d";
+            }
+        }
+        
+        // 检查槽位消除 (凑齐三个相同消除)
+        function tryEliminateFromSlot() {
+            if(slotCards.length < 3) return false;
+            // 统计每种类型数量
+            let countMap = new Array(CARD_TYPES+1).fill(0);
+            for(let card of slotCards){
+                countMap[card]++;
+            }
+            let anyElim = false;
+            for(let t=1; t<=CARD_TYPES; t++){
+                if(countMap[t] >= 3){
+                    // 消除3个该类型
+                    let removed = 0;
+                    let newSlot = [];
+                    for(let card of slotCards){
+                        if(card === t && removed < 3){
+                            removed++;
+                            continue;
+                        }
+                        newSlot.push(card);
+                    }
+                    slotCards = newSlot;
+                    totalScore += 10;   // 完成一组作业+10分
+                    updateScoreUI();
+                    anyElim = true;
+                    // 因为槽位变动，需要递归检查连续消除 (类似于羊了个羊连锁)
+                    return tryEliminateFromSlot(); // 继续消除直到稳定
+                }
+            }
+            return anyElim;
+        }
+        
+        // 添加卡片到槽位 (核心逻辑)
+        function addCardToSlot(cardType){
+            if(gameOver) return false;
+            if(slotCards.length >= MAX_SLOT){
+                // 槽位满，游戏结束
+                gameOver = true;
+                updateSlotUI();
+                renderGame();
+                return false;
+            }
+            slotCards.push(cardType);
+            updateSlotUI();
+            // 尝试消除
+            tryEliminateFromSlot();
+            updateSlotUI();
+            // 消除后再次检查槽位有没有爆满
+            if(slotCards.length >= MAX_SLOT && !gameOver){
+                // 如果消除后仍然满槽且没有消除可能？满槽但没能消除 -> 游戏结束
+                let hasMatch = false;
+                let cntMap = new Array(CARD_TYPES+1).fill(0);
+                for(let c of slotCards) cntMap[c]++;
+                for(let i=1;i<=CARD_TYPES;i++) if(cntMap[i]>=3) hasMatch=true;
+                if(!hasMatch){
+                    gameOver = true;
+                } else {
+                    // 理论上前面tryEliminateFromSlot会递归消除干净，若还存在满槽但未消除？再调一次
+                    tryEliminateFromSlot();
+                    updateSlotUI();
+                    if(slotCards.length >= MAX_SLOT){
+                        let stillFull = true;
+                        let map2 = new Array(CARD_TYPES+1).fill(0);
+                        for(let c of slotCards) map2[c]++;
+                        for(let i=1;i<=CARD_TYPES;i++) if(map2[i]>=3) stillFull=false;
+                        if(stillFull) gameOver = true;
+                    }
+                }
+            }
+            // 胜利判定：所有卡片堆为空 且 槽位没有强制满卡结束
+            const remainCards = countTotalRemainCards();
+            if(remainCards === 0 && !gameOver){
+                // 完美通关！
+                gameOver = true;
+                // 额外显示胜利消息，绘制时会有体现
+            }
+            renderGame();
+            return true;
+        }
+        
+        // 处理点击卡牌 (取顶部卡片)
+        function handleCardClick(row, col){
+            if(gameOver) return false;
+            const stack = boardStacks[row][col];
+            if(stack.length === 0) return false; // 无卡片
+            
+            // 取出顶部卡片 (最后一个元素)
+            const topCard = stack.pop();
+            // 添加到槽位
+            addCardToSlot(topCard);
+            // 重新渲染
+            renderGame();
+            // 若游戏结束显示结局
+            return true;
+        }
+        
+        // ---------- 重置/初始化校园主题堆叠 ----------
+        function initSchoolGame() {
+            // 构建多层校园物品堆 (模仿羊了个羊难度)
+            boardStacks = Array(GRID_ROWS).fill().map(() => Array(GRID_COLS).fill().map(() => []));
+            // 生成有趣又不至于太简单的多层结构：每个格子至少1张，部分2~3张，且使得高价值物品分布
+            let totalCards = 0;
+            // 先确保每个格子至少有一张
+            for(let r=0; r<GRID_ROWS; r++){
+                for(let c=0; c<GRID_COLS; c++){
+                    let layers = 1;
+                    if(Math.random() < 0.65) layers = 2;   // 中高层
+                    if(Math.random() < 0.3) layers = 3;    // 深层堆叠
+                    // 边界限制防止过多卡顿
+                    layers = Math.min(layers, 3);
+                    let stack = [];
+                    for(let i=0;i<layers;i++){
+                        let cardType = Math.floor(Math.random() * CARD_TYPES) + 1;
+                        stack.push(cardType);
+                        totalCards++;
+                    }
+                    boardStacks[r][c] = stack;
+                }
+            }
+            // 额外让校园主题分布更均衡：保证每个类型卡片总数不是太少，但随机创造挑战
+            // 为了避免初始某些堆太浅，随机增加一些到空位（这里保证每个格子都有）
+            for(let r=0; r<GRID_ROWS; r++){
+                for(let c=0; c<GRID_COLS; c++){
+                    if(boardStacks[r][c].length === 0){
+                        boardStacks[r][c].push(Math.floor(Math.random() * CARD_TYPES) + 1);
+                        totalCards++;
+                    }
+                }
+            }
+            
+            // 重置游戏状态
+            slotCards = [];
+            totalScore = 0;
+            gameOver = false;
+            updateScoreUI();
+            updateSlotUI();
+            renderGame();
+        }
+        
+        // ---------- 华丽绘图模块 (校园手绘风格) ----------
+        function drawCardStack(x, y, w, h, stackArray, isTopHighlight = false){
+            // 画堆叠卡片背景阴影
+            const cnt = stackArray.length;
+            if(cnt === 0){
+                // 画空槽虚线
+                ctx.beginPath();
+                ctx.roundRect(x+2, y+2, w-4, h-4, 12);
+                ctx.strokeStyle = "#b8aa82";
+                ctx.setLineDash([5, 8]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                return;
+            }
+            // 画出多层边缘效果（从下往上画轮廓）
+            const maxDepth = Math.min(cnt, 3);
+            for(let depth = 0; depth < maxDepth; depth++){
+                let offsetX = depth * 2;
+                let offsetY = depth * -2;
+                let alpha = 0.85 - depth*0.15;
+                ctx.fillStyle = `rgba(210, 180, 120, ${alpha*0.5})`;
+                ctx.beginPath();
+                ctx.roundRect(x+offsetX, y+offsetY, w, h, 12);
+                ctx.fill();
+            }
+            // 主卡片
+            const topType = stackArray[stackArray.length-1];
+            const color = CARD_COLORS[topType-1];
+            const grad = ctx.createLinearGradient(x, y, x+w, y+h);
+            grad.addColorStop(0, color);
+            grad.addColorStop(1, color+"cc");
+            ctx.fillStyle = grad;
+            ctx.shadowBlur = 4;
+            ctx.shadowColor = "rgba(0,0,0,0.2)";
+            ctx.beginPath();
+            ctx.roundRect(x, y, w-1, h-1, 14);
+            ctx.fill();
+            ctx.fillStyle = "#ffffffcc";
+            ctx.font = `bold ${Math.floor(h*0.4)}px "Segoe UI Emoji", "Apple Color Emoji", system-ui`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.shadowBlur = 2;
+            ctx.fillStyle = "#1f1a0e";
+            ctx.fillText(CARD_ICONS[topType-1], x+w/2+1, y+h/2+1);
+            ctx.fillStyle = "#fff6e0";
+            ctx.fillText(CARD_ICONS[topType-1], x+w/2, y+h/2);
+            // 小型文字提示
+            ctx.font = `12px "Segoe UI", system-ui`;
+            ctx.fillStyle = "#2f2a1f";
+            ctx.fillText(CARD_ITEMS[topType-1].slice(0,4), x+w/2, y+h-8);
+            ctx.shadowBlur = 0;
+            // 若有高亮
+            if(isTopHighlight){
+                ctx.beginPath();
+                ctx.roundRect(x-2, y-2, w+2, h+2, 18);
+                ctx.strokeStyle = "#ffcf7a";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+        }
+        
+        function drawSlotArea(){
+            const startX = 30;
+            const startY = H - 90;
+            const slotW = 72;
+            const slotH = 70;
+            const gap = 10;
+            ctx.font = "bold 16px 'Segoe UI'";
+            ctx.fillStyle = "#5d3a1c";
+            ctx.fillText("📥 待办槽位 (凑齐3件完成课题)", startX, startY-10);
+            for(let i=0; i<MAX_SLOT; i++){
+                let x = startX + i*(slotW+gap);
+                let y = startY;
+                ctx.fillStyle = "#e6d5b6";
+                ctx.shadowBlur = 0;
+                ctx.beginPath();
+                ctx.roundRect(x, y, slotW, slotH, 16);
+                ctx.fill();
+                ctx.strokeStyle = "#b69c6c";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                if(i < slotCards.length){
+                    let cardId = slotCards[i];
+                    const icon = CARD_ICONS[cardId-1];
+                    const color = CARD_COLORS[cardId-1];
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    ctx.roundRect(x+4, y+4, slotW-8, slotH-8, 12);
+                    ctx.fill();
+                    ctx.font = `36px "Segoe UI Emoji"`;
+                    ctx.fillStyle = "#fef1cf";
+                    ctx.fillText(icon, x+slotW/2-6, y+slotH/2+6);
+                    ctx.font = `14px system-ui`;
+                    ctx.fillStyle = "#1f2c12";
+                    ctx.fillText(CARD_ITEMS[cardId-1].slice(0,2), x+slotW/2-10, y+slotH-12);
+                } else {
+                    ctx.fillStyle = "#cbbd93";
+                    ctx.font = "26px system-ui";
+                    ctx.fillText("📌", x+slotW/2-12, y+slotH/2+8);
+                }
+            }
+        }
+        
+        function drawGameBoard() {
+            const gridTopY = 30;
+            const gridLeftX = 15;
+            const cellW = (W - 40) / GRID_COLS;
+            const cellH = (H - 180) / GRID_ROWS;
+            for(let row=0; row<GRID_ROWS; row++){
+                for(let col=0; col<GRID_COLS; col++){
+                    let x = gridLeftX + col * cellW;
+                    let y = gridTopY + row * cellH;
+                    let stack = boardStacks[row][col];
+                    drawCardStack(x, y, cellW-6, cellH-6, stack, false);
+                    // 如果有卡片且该块可点击，显示小小标记
+                    if(stack.length > 0 && !gameOver){
+                        ctx.font = "12px monospace";
+                        ctx.fillStyle = "#ffeecc";
+                        ctx.shadowBlur = 0;
+                        ctx.fillText(`📖 ${stack.length}层`, x+5, y+cellH-12);
+                    } else if(stack.length === 0){
+                        ctx.fillStyle = "#a89f7d";
+                        ctx.font = "18px system-ui";
+                        ctx.fillText("✨", x+cellW/2-8, y+cellH/2);
+                    }
+                }
+            }
+        }
+        
+        function drawGameOverMsg() {
+            if(!gameOver) return;
+            ctx.fillStyle = "#000000aa";
+            ctx.fillRect(0,0,W,H);
+            ctx.font = "bold 32system-ui, 'Press Start 2P'";
+            ctx.fillStyle = "#fff2bf";
+            ctx.shadowBlur = 0;
+            const remaining = countTotalRemainCards();
+            if(remaining === 0){
+                ctx.fillText("🎉 毕业啦！全科优秀 🎉", W/2-180, H/2-40);
+                ctx.font = "20px monospace";
+                ctx.fillStyle = "#f9e281";
+                ctx.fillText("荣获学霸称号 + 小羊奖杯", W/2-160, H/2+25);
+            } else if(slotCards.length >= MAX_SLOT){
+                ctx.fillText("😭 挂科警告 · 槽位爆炸 😭", W/2-180, H/2-30);
+                ctx.font = "18px system-ui";
+                ctx.fillStyle = "#ffbe76";
+                ctx.fillText("点击「新的一课」重新挑战校园", W/2-150, H/2+40);
+            } else {
+                ctx.fillText("⛔ 游戏终止 ⛔", W/2-120, H/2-20);
+                ctx.font = "16px monospace";
+                ctx.fillStyle = "#f9d894";
+                ctx.fillText("按下方按钮开始新的学期", W/2-110, H/2+35);
+            }
+        }
+        
+        function renderGame(){
+            ctx.clearRect(0,0,W,H);
+            // 背景校园黑板纹理
+            ctx.fillStyle = "#fff1cf";
+            ctx.fillRect(0,0,W,H);
+            // 画格子装饰
+            for(let i=0;i<W;i+=35){
+                ctx.beginPath();
+                ctx.strokeStyle = "#ecddaa";
+                ctx.lineWidth = 0.6;
+                ctx.moveTo(i,0);
+                ctx.lineTo(i,H);
+                ctx.stroke();
+                ctx.moveTo(0,i%H);
+                ctx.lineTo(W,i%H);
+                ctx.stroke();
+            }
+            // 标题
+            ctx.font = "bold 22px 'Segoe UI', system-ui";
+            ctx.fillStyle = "#8b5a2b";
+            ctx.fillText("🐏 校园羊了个羊 · 堆叠大作战 📚", W/2-170, 28);
+            drawGameBoard();
+            drawSlotArea();
+            drawGameOverMsg();
+            // 提示剩余卡牌数量小标志
+            const remain = countTotalRemainCards();
+            ctx.font = "bold 14px monospace";
+            ctx.fillStyle = "#5b3f1c";
+            ctx.fillText(`📦 剩余校园物品: ${remain}`, W-130, H-12);
+        }
+        
+        // ---------- 坐标点击映射 ----------
+        function getClickedCard(mouseX, mouseY) {
+            const gridTopY = 30;
+            const gridLeftX = 15;
+            const cellW = (W - 40) / GRID_COLS;
+            const cellH = (H - 180) / GRID_ROWS;
+            for(let row=0; row<GRID_ROWS; row++){
+                for(let col=0; col<GRID_COLS; col++){
+                    let x0 = gridLeftX + col * cellW;
+                    let y0 = gridTopY + row * cellH;
+                    let x1 = x0 + cellW-6;
+                    let y1 = y0 + cellH-6;
+                    if(mouseX >= x0 && mouseX <= x1 && mouseY >= y0 && mouseY <= y1){
+                        if(boardStacks[row][col].length > 0 && !gameOver){
+                            return {row, col};
+                        } else {
+                            return null;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        
+        // ---------- 事件绑定 ----------
+        function handleCanvasClick(e){
+            if(gameOver) return;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let clientX, clientY;
+            if(e.touches){
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+                e.preventDefault();
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            let canvasX = (clientX - rect.left) * scaleX;
+            let canvasY = (clientY - rect.top) * scaleY;
+            if(canvasX >=0 && canvasX <= W && canvasY >=0 && canvasY <= H){
+                const target = getClickedCard(canvasX, canvasY);
+                if(target){
+                    handleCardClick(target.row, target.col);
+                }
+            }
+        }
+        
+        // 重置
+        function resetGame(){
+            initSchoolGame();
+            renderGame();
+        }
+        
+        // 添加事件
+        function bindEvents(){
+            canvas.addEventListener('click', handleCanvasClick);
+            canvas.addEventListener('touchstart', (e)=>{
+                e.preventDefault();
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.touches[0];
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                let canvasX = (touch.clientX - rect.left) * scaleX;
+                let canvasY = (touch.clientY - rect.top) * scaleY;
+                if(canvasX >=0 && canvasX <= W && canvasY >=0 && canvasY <= H){
+                    const target = getClickedCard(canvasX, canvasY);
+                    if(target && !gameOver) handleCardClick(target.row, target.col);
+                }
+            });
+            const resetBtn = document.getElementById('resetGameBtn');
+            resetBtn.addEventListener('click', ()=>{
+                resetGame();
+            });
+        }
+        
+        // 初始化游戏
+        function startGame(){
+            initSchoolGame();
+            bindEvents();
+            renderGame();
+        }
+        
+        startGame();
+    })();
+</script>
+</body>
+</html>
