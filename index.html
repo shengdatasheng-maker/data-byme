@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-Hant-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="Sheng的个人网站 | 音乐制作人 · 独立开发者 · 创意工程师">
-    <title>Sheng · 音律与代码的筑梦者</title>
+    <meta name="description" content="李瑋晟 Wilson 的個人網站 | 2026 暑期實習生 · 電腦文書／資料處理助理">
+    <title>李瑋晟 Wilson · 2026 暑期實習簡歷</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
             box-sizing: border-box;
         }
 
-        /* CSS 变量 - 支持暗黑模式 */
+        /* CSS 變量 - 支持暗黑模式 */
         :root {
             --bg-primary: #f5f7fe;
             --bg-secondary: #ffffff;
@@ -52,7 +52,7 @@
             padding: 2rem 1.5rem;
         }
 
-        /* 暗黑模式切换按钮 */
+        /* 暗黑模式切換按鈕 */
         .theme-toggle {
             position: fixed;
             bottom: 24px;
@@ -67,7 +67,7 @@
             transition: 0.2s;
         }
 
-        /* 头部区域 */
+        /* 頭部區域 */
         .hero {
             text-align: center;
             margin-bottom: 3rem;
@@ -83,6 +83,7 @@
             justify-content: center;
             font-size: 3.5rem;
             box-shadow: 0 20px 30px -10px rgba(59,130,246,0.3);
+            user-select: none;
         }
         .hero h1 {
             font-size: 2.8rem;
@@ -98,7 +99,7 @@
             margin-top: 0.5rem;
         }
 
-        /* 通用卡片样式 */
+        /* 通用卡片樣式 */
         .card {
             background: var(--card-bg);
             border-radius: 1.5rem;
@@ -119,7 +120,7 @@
             padding-left: 1rem;
         }
 
-        /* 技能标签 */
+        /* 技能標籤 */
         .skill-tag {
             display: inline-block;
             background: var(--code-bg);
@@ -130,7 +131,7 @@
             border: 1px solid var(--border-color);
         }
 
-        /* 项目网格 */
+        /* 項目網格 */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -152,6 +153,7 @@
             margin: 1rem 0;
             text-align: center;
             font-family: monospace;
+            font-size: 0.9rem;
         }
 
         /* 博客文章列表 */
@@ -185,7 +187,7 @@
             color: var(--accent);
         }
 
-        /* 时间轴 (简历) */
+        /* 時間軸 (簡歷) */
         .timeline {
             position: relative;
             padding-left: 2rem;
@@ -205,7 +207,7 @@
             background: var(--card-bg);
         }
 
-        /* 媒体橱窗 */
+        /* 媒體櫥窗 */
         .media-grid {
             display: flex;
             gap: 1rem;
@@ -218,7 +220,7 @@
             font-size: 0.85rem;
         }
 
-        /* 评价 */
+        /* 評價 */
         .testimonial {
             background: var(--code-bg);
             padding: 1rem;
@@ -227,7 +229,7 @@
             font-style: italic;
         }
 
-        /* 终端彩蛋 */
+        /* 終端彩蛋 */
         .terminal-overlay {
             position: fixed;
             top: 0;
@@ -270,7 +272,7 @@
             border-radius: 0.5rem;
         }
 
-        /* 阅读进度条 */
+        /* 閱讀進度條 */
         .reading-progress {
             position: fixed;
             top: 0;
@@ -282,7 +284,7 @@
             transition: width 0.1s;
         }
 
-        /* 现在页面特殊卡片 */
+        /* 現在頁面特殊卡片 */
         .now-grid {
             display: flex;
             flex-wrap: wrap;
@@ -314,311 +316,27 @@
 <div class="theme-toggle" id="themeToggleBtn">🌙 暗黑</div>
 
 <div class="container">
-    <!-- Hero + 关于我 -->
     <div class="hero">
-        <div class="avatar" id="easterEggAvatar">🎧</div>
-        <h1>Sheng · 音律构筑者</h1>
-        <div class="tagline">音乐制作人 / 独立开发者 / 创意工程师</div>
-        <p style="max-width: 600px; margin: 1rem auto 0; color: var(--text-secondary);">用代码谱写旋律，用算法生成梦境。相信创造是唯一不会后悔的事。</p>
+        <div class="avatar" id="easterEggAvatar" style="cursor: pointer;">💻</div>
+        <h1>李瑋晟 · Wilson</h1>
+        <div class="tagline">尋求 2026 暑期實習：電腦文書 ／ 資料處理助理</div>
+        <p style="max-width: 600px; margin: 1rem auto 0; color: var(--text-secondary);">
+            熟練 Office 文書處理，擅長結合 AI 工具提升行政效率。態度積極、守時負責，能穩定產出高準確度的文件與數據表格。
+        </p>
     </div>
 
-    <!-- 关于我（升级版） -->
     <div class="card">
-        <div class="section-title">📖 关于我 · 大白话版</div>
-        <p><strong>我是谁：</strong> 一个白天写代码、深夜做 beats 的斜杠青年。热爱把抽象逻辑变成可听可感的作品。</p>
-        <p><strong>我擅长：</strong> 音乐制作（Logic Pro / Ableton）、前端创意编程、独立游戏开发。最近沉迷于声音可视化与生成艺术。</p>
-        <p><strong>我感兴趣：</strong> 氛围电子、交互叙事、AI辅助创作。以及一切能让人「Wow」的创意技术。</p>
+        <div class="section-title">📖 關於我 · 自我介紹</div>
+        <p><strong>我是誰：</strong> 一名現正就讀高二的學生（預計 2027 年畢業）。對電腦操作、自動化行政及數據整理有濃厚興趣與實踐經驗。</p>
+        <p><strong>我擅長：</strong> 熟練操作 Word、Excel、PPT 及 Google 雲端協作工具。並能運用基礎 Python 與 R Cloud 配合 AI 進行資料清洗與圖表製作。</p>
+        <p><strong>工作態度：</strong> 英文程度能看懂常見系統指令及簡單工作電郵（約雅思考試 5.0 以下程度）。遇到不懂之處會查閱詞典或主動詢問，做事細心嚴謹，絕不自作主張，隨時歡迎公司進行實操測試。</p>
         <div style="margin-top: 1rem;">
-            <span class="skill-tag">🎹 音乐制作8年</span>
-            <span class="skill-tag">⚛️ React/Vue</span>
-            <span class="skill-tag">🎮 独立开发</span>
+            <span class="skill-tag">📊 精通 Office / Google 雲端</span>
+            <span class="skill-tag">🤖 AI 輔助辦公 (ChatGPT)</span>
+            <span class="skill-tag">🐍 基礎 Python & R 數據整理</span>
+            <span class="skill-tag">⌨️ 中英文打字快且準</span>
         </div>
     </div>
 
-    <!-- 项目展示 Portfolio -->
     <div class="card">
-        <div class="section-title">🚀 作品集 · 我解决了什么</div>
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3>🎵 星尘回响 · 节奏游戏</h3>
-                <p>一个音乐可视化互动游戏，解决的是「让非专业玩家也能通过节奏获得心流体验」。利用Web Audio合成氛围+动态难度算法，玩家完美击中时绽放粒子特效。</p>
-                <div class="project-demo">🎮 在线体验 ↓ (网站内游戏厅模块)</div>
-            </div>
-            <div class="project-card">
-                <h3>✨ 声景生成器 · 创意工具</h3>
-                <p>用AI生成环境氛围音乐，解决了创作者寻找免版税氛围音乐的痛点。支持实时参数调制，输出高质量WAV。</p>
-                <div class="project-demo">🔊 技术栈: Tone.js + Python后端</div>
-            </div>
-            <div class="project-card">
-                <h3>📝 个人博客系统</h3>
-                <p>从0搭建的极简博客，解决「技术写作需要专注环境」的问题。支持Markdown、阅读时间预估、代码高亮。</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- 互动式简历 时间轴 -->
-    <div class="card">
-        <div class="section-title">📜 互动简历 · 经历时间轴</div>
-        <div class="timeline">
-            <div class="timeline-item">
-                <strong>2024 - 至今</strong> | 独立音乐人/开发者<br>
-                发布个人EP《星尘组曲》，开发3款音乐互动网页，累计访问2w+。
-            </div>
-            <div class="timeline-item">
-                <strong>2022 - 2024</strong> | 某科技公司 · 前端工程师<br>
-                负责设计系统与可视化大屏，优化性能提升40%渲染效率。
-            </div>
-            <div class="timeline-item">
-                <strong>2020 - 2022</strong> | 自由职业 · 多媒体创作者<br>
-                为独立游戏配乐，制作多个音乐可视化作品。
-            </div>
-        </div>
-    </div>
-
-    <!-- 技能树 / 工具箱 -->
-    <div class="card">
-        <div class="section-title">🛠️ 技能 & 工具箱</div>
-        <div>
-            <strong>编程语言</strong>
-            <div><span class="skill-tag">JavaScript/TypeScript</span><span class="skill-tag">Python</span><span class="skill-tag">Rust</span></div>
-        </div>
-        <div style="margin-top: 1rem;">
-            <strong>框架/工具</strong>
-            <div><span class="skill-tag">React</span><span class="skill-tag">Vue3</span><span class="skill-tag">Node.js</span><span class="skill-tag">Three.js</span><span class="skill-tag">Web Audio</span></div>
-        </div>
-        <div style="margin-top: 1rem;">
-            <strong>创意软件</strong>
-            <div><span class="skill-tag">Ableton Live</span><span class="skill-tag">Logic Pro</span><span class="skill-tag">Figma</span><span class="skill-tag">TouchDesigner</span></div>
-        </div>
-        <p style="margin-top: 0.8rem; font-size:0.85rem;">※ 不用百分比条，因为成长永无止境 ✨</p>
-    </div>
-
-    <!-- 个人博客 带阅读进度 -->
-    <div class="card">
-        <div class="section-title">✍️ 个人博客 · 思维回响</div>
-        <div class="blog-list" id="blogList">
-            <div class="blog-item" data-blog-id="0">
-                <div class="blog-title">
-                    <span>关于独立开发者的时间管理哲学</span>
-                    <span class="reading-time">阅读 4 分钟</span>
-                </div>
-                <div class="blog-preview">很多人问我，既要写代码又要做音乐，时间怎么分配？我的答案是「主题月」... <strong>点击展开全文</strong></div>
-                <div class="blog-preview full-content" style="display:none;">全文：每个月我只聚焦一个大主题，比如「三月: 开发节奏游戏引擎」「四月: 混音母带进阶」，碎片时间用来输入而非产出。这样反而效率更高。核心原则：保护心流，拒绝多任务。</div>
-            </div>
-            <div class="blog-item" data-blog-id="1">
-                <div class="blog-title">
-                    <span>Web Audio API 实践：从零构建合成器</span>
-                    <span class="reading-time">阅读 6 分钟</span>
-                </div>
-                <div class="blog-preview">OscillatorNode, GainNode 以及滤波器串联，带你写出第一个浏览器合成器... <strong>点击展开</strong></div>
-                <div class="blog-preview full-content" style="display:none;">全文：利用AudioContext创建振荡器，添加ADSR包络，最终实现一个可以响应鼠标位置改变音高的迷你合成器。代码片段已上传GitHub。这也是本站游戏厅的底层技术基石。</div>
-            </div>
-            <div class="blog-item" data-blog-id="2">
-                <div class="blog-title">
-                    <span>2025 年度歌单 & 声音灵感</span>
-                    <span class="reading-time">阅读 2 分钟</span>
-                </div>
-                <div class="blog-preview">最近在循环 Ólafur Arnalds, 以及一些氛围 breaks。分享我的声音收集方式... <strong>点击展开</strong></div>
-                <div class="blog-preview full-content" style="display:none;">全文：使用Last.fm记录听歌历史 + 每月整理「声景笔记」，同时用网易云API抓取歌单。艺术是输入与输出的平衡。</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 客户/同行评价 -->
-    <div class="card">
-        <div class="section-title">💬 同行·伙伴说</div>
-        <div class="testimonial">“和Sheng合作游戏音频是一次享受，他总能精准理解叙事需求，而且产出的demo几乎不用修改。” — 独立游戏制作人 @林南</div>
-        <div class="testimonial" style="margin-top: 0.8rem;">“前端代码非常优雅，而且对用户体验细节有近乎偏执的追求。绝对是团队里最有创造力的工程师。” — 前同事 Emma</div>
-    </div>
-
-    <!-- 现在页面 /now 热门概念 -->
-    <div class="card">
-        <div class="section-title">🌱 现在 · 进行时</div>
-        <p><strong>最近几周正在忙：</strong></p>
-        <div class="now-grid">
-            <span class="now-item">📖 在读《设计声音》</span>
-            <span class="now-item">🎧 循环播放：Nils Frahm 现场专辑</span>
-            <span class="now-item">💻 死磕: Rust + WebAssembly 音频处理</span>
-            <span class="now-item">🏋️ 挑战: 每日45分钟健身</span>
-        </div>
-        <p style="margin-top: 1rem; font-size:0.85rem;">(更新于 2026年6月 · 灵感来自 /now 运动)</p>
-    </div>
-
-    <!-- 媒体橱窗 + 音乐接入模拟 -->
-    <div class="card">
-        <div class="section-title">📀 媒体橱窗 · 灵感补给</div>
-        <div><strong>🎬 最近在看：</strong> 《拾荒者统治》—— 想象力爆棚的科幻动画</div>
-        <div style="margin-top: 0.5rem;"><strong>📚 书单：</strong> 《创意选择》《设计声音》《代码之髓》</div>
-        <div style="margin-top: 0.5rem;"><strong>🎵 近期在听 (Spotify风格)：</strong> <span id="nowPlaying">加载中...</span></div>
-        <div class="media-grid" style="margin-top: 0.8rem;">
-            <div class="media-card">🎸 年度歌单: 氛围电子/古典极简</div>
-            <div class="media-card">🎧 自制Mixtape: '星尘序曲'</div>
-        </div>
-    </div>
-
-    <!-- 趣味 Q&A + 冷知识 -->
-    <div class="card">
-        <div class="section-title">🤔 冷知识 · 趣味问答</div>
-        <p>☕ 每天必须喝: 冰美式 (不加糖 不加奶)<br>
-        😻 猫奴属性: 有一个叫「音符」的黑猫<br>
-        🧠 MBTI: INFJ (提倡者) — 理想主义但务实<br>
-        🎮 隐藏技能: 连续点击我头像会有惊喜 ✨</p>
-    </div>
-
-    <!-- 联系表单 / 极简 -->
-    <div class="card">
-        <div class="section-title">📬 联系 · 共振瞬间</div>
-        <form id="contactForm" style="display: flex; flex-direction: column; gap: 1rem;">
-            <input type="email" id="contactEmail" placeholder="你的邮箱" style="padding: 0.8rem; border-radius: 2rem; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
-            <textarea id="contactMsg" rows="2" placeholder="说点什么吧..." style="padding: 0.8rem; border-radius: 1.2rem; border: 1px solid var(--border-color); background: var(--bg-primary);"></textarea>
-            <button type="submit" style="width: fit-content; background: var(--accent); border: none; padding: 0.6rem 1.8rem; border-radius: 3rem; color: white; font-weight: bold; cursor: pointer;">✨ 发送星信</button>
-        </form>
-        <div style="margin-top: 1rem; text-align: center;">
-            <a href="mailto:sheng@example.com" style="color: var(--accent);">📧 shengdatasheng@gmail.com</a>
-            <span style="margin: 0 1rem">|</span>
-            <a href="#" style="color: var(--accent);">🐙 GitHub</a>
-            <span style="margin: 0 0.5rem">|</span>
-            <a href="#" style="color: var(--accent);">🔗 LinkedIn</a>
-        </div>
-    </div>
-
-    <footer>✨ 保持创造 · 数字花园不断生长 | 本站支持暗黑模式 & 终端彩蛋 ✨</footer>
-</div>
-
-<!-- 终端彩蛋窗口 -->
-<div id="terminalModal" class="terminal-overlay">
-    <div class="terminal-window">
-        <div style="color:#fff;">⚡ Sheng 的终端接口 v1.0</div>
-        <div id="terminalOutput">输入 help 查看可执行命令</div>
-        <div class="terminal-input">
-            <span>$&nbsp;</span>
-            <input type="text" id="terminalCmd" autocomplete="off">
-        </div>
-        <button id="closeTerminal" style="margin-top: 1rem; background:#334155; border:none; padding:0.3rem 1rem; border-radius: 0.5rem; color:white;">关闭</button>
-    </div>
-</div>
-
-<script>
-    // 暗黑模式切换 + 本地存储
-    const toggleBtn = document.getElementById('themeToggleBtn');
-    if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
-    toggleBtn.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-        toggleBtn.innerText = document.body.classList.contains('dark') ? '☀️ 明亮' : '🌙 暗黑';
-    });
-    toggleBtn.innerText = document.body.classList.contains('dark') ? '☀️ 明亮' : '🌙 暗黑';
-
-    // 博客展开/折叠功能 + 阅读进度条
-    const blogItems = document.querySelectorAll('.blog-item');
-    blogItems.forEach(item => {
-        const titleDiv = item.querySelector('.blog-title');
-        const preview = item.querySelector('.blog-preview');
-        const fullContent = item.querySelector('.full-content');
-        titleDiv.addEventListener('click', () => {
-            if(fullContent.style.display === 'none') {
-                fullContent.style.display = 'block';
-                preview.style.display = 'none';
-            } else {
-                fullContent.style.display = 'none';
-                preview.style.display = 'block';
-            }
-        });
-    });
-
-    // 滚动阅读进度条
-    window.addEventListener('scroll', () => {
-        const winScroll = document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - window.innerHeight;
-        const scrolled = (winScroll / height) * 100;
-        document.getElementById('readingProgress').style.width = scrolled + '%';
-    });
-
-    // 复活节彩蛋: 连续点击头像5次触发撒花 (简单模拟)
-    let avatarClickCount = 0;
-    const avatarDiv = document.querySelector('.avatar');
-    avatarDiv.addEventListener('click', () => {
-        avatarClickCount++;
-        if(avatarClickCount >= 5) {
-            alert('✨ 彩蛋触发！你发现了隐藏的魔法 ✨\n“保持好奇，世界充满韵律”');
-            avatarClickCount = 0;
-            // 简单撒花效果
-            confettiEffect();
-        }
-        setTimeout(() => { avatarClickCount = 0; }, 2000);
-    });
-
-    function confettiEffect() {
-        // 简易模拟撒花
-        for(let i=0;i<50;i++) {
-            const dot = document.createElement('div');
-            dot.innerText = '✨';
-            dot.style.position = 'fixed';
-            dot.style.left = Math.random() * window.innerWidth + 'px';
-            dot.style.top = '0px';
-            dot.style.fontSize = '20px';
-            dot.style.pointerEvents = 'none';
-            dot.style.zIndex = '9999';
-            dot.style.animation = `fall ${Math.random() * 2 + 1}s linear forwards`;
-            document.body.appendChild(dot);
-            setTimeout(() => dot.remove(), 2000);
-        }
-    }
-    const style = document.createElement('style');
-    style.textContent = `@keyframes fall { to { transform: translateY(100vh); opacity:0; } }`;
-    document.head.appendChild(style);
-
-    // 终端彩蛋: 键盘上下左右（上上下下左右左右BA）
-    let konami = [];
-    const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','B','a','A'];
-    document.addEventListener('keydown', (e) => {
-        konami.push(e.key);
-        if(konami.length > 12) konami.shift();
-        if(konami.join(',').includes(konamiCode.join(','))) {
-            document.getElementById('terminalModal').classList.add('active');
-            konami = [];
-        }
-    });
-
-    // 终端命令逻辑
-    const terminalModal = document.getElementById('terminalModal');
-    const terminalCmd = document.getElementById('terminalCmd');
-    const terminalOutput = document.getElementById('terminalOutput');
-    document.getElementById('closeTerminal').addEventListener('click', () => {
-        terminalModal.classList.remove('active');
-    });
-    terminalCmd.addEventListener('keypress', (e) => {
-        if(e.key === 'Enter') {
-            const cmd = terminalCmd.value.trim().toLowerCase();
-            let output = '';
-            if(cmd === 'help') output = '可用命令: about, projects, contact, skills, now, clear';
-            else if(cmd === 'about') output = 'Sheng: 音乐制作人/独立开发者，擅长创意编程与声音设计。';
-            else if(cmd === 'projects') output = '作品: 星尘回响游戏、声景生成器、互动博客。详情见网站作品集模块。';
-            else if(cmd === 'contact') output = '邮箱: shengdatasheng@gmail.com | GitHub: github.com/sheng';
-            else if(cmd === 'skills') output = '技术栈: React, Vue, Node, Web Audio, Python, Rust. 创意: Ableton, Figma';
-            else if(cmd === 'now') output = '正在读《设计声音》，钻研Rust+Wasm，循环Nils Frahm。';
-            else if(cmd === 'clear') { terminalOutput.innerHTML = ''; terminalCmd.value = ''; return; }
-            else output = `未知命令: ${cmd}. 输入 help 获取帮助`;
-            terminalOutput.innerHTML += `<div>> ${cmd}</div><div>${output}</div>`;
-            terminalCmd.value = '';
-        }
-    });
-
-    // 模拟当前播放音乐 (媒体橱窗)
-    const tracks = ['Ólafur Arnalds - re:member', 'Nils Frahm - Says', 'Kiasmos - Blurred'];
-    let idx = 0;
-    document.getElementById('nowPlaying').innerText = tracks[0];
-    setInterval(() => { idx = (idx+1)%tracks.length; document.getElementById('nowPlaying').innerText = tracks[idx]; }, 5000);
-
-    // 简易联系表单 (模拟)
-    document.getElementById('contactForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('✨ 感谢留言，我会尽快回复你的星信 ✨');
-        document.getElementById('contactForm').reset();
-    });
-
-    // 添加RSS说明 (不暴露复杂后端但提供理念)
-    console.log("RSS订阅源可用: /rss.xml (模拟概念) 或 通过 email newsletter 跟进");
-</script>
-</body>
-</html>
+        <div class
