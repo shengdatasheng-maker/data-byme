@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="李瑋晟 Wilson 的個人網站 | 2026 暑期實習生 · 電腦文書／資料處理助理">
-    <title>李瑋晟 Wilson · 2026 暑期實習簡歷</title>
+    <meta name="description" content="李瑋晟 Wilson 的個人網頁 | 記錄程式自學、數據探索與數位生活">
+    <title>李瑋晟 Wilson · 個人數位空間</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -12,264 +15,40 @@
             box-sizing: border-box;
         }
 
-        /* CSS 變量 - 支持暗黑模式 */
+        /* 高級感調色盤 - 支援暗黑模式 */
         :root {
-            --bg-primary: #f5f7fe;
+            --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
-            --text-primary: #1a1f2e;
-            --text-secondary: #4a5568;
-            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --card-bg: rgba(255, 255, 255, 0.85);
             --border-color: #e2e8f0;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59,130,246,0.2);
+            --accent: #2563eb;
+            --accent-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
             --code-bg: #f1f5f9;
-            --shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+            --shadow: 0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 12px -4px rgba(0,0,0,0.03);
+            --blur: backdrop-filter: blur(12px);
         }
 
         body.dark {
-            --bg-primary: #0a0e1a;
+            --bg-primary: #0b0f19;
             --bg-secondary: #111827;
-            --text-primary: #f0f3fa;
-            --text-secondary: #9ca3af;
-            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.7);
             --border-color: #334155;
             --accent: #60a5fa;
+            --accent-gradient: linear-gradient(135deg, #60a5fa, #a78bfa);
             --code-bg: #0f172a;
-            --shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+            --shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
         }
 
         body {
             background: var(--bg-primary);
             color: var(--text-primary);
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            transition: background 0.3s, color 0.2s;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-
-        /* 暗黑模式切換按鈕 */
-        .theme-toggle {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 60px;
-            padding: 12px;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-            transition: 0.2s;
-        }
-
-        /* 頭部區域 */
-        .hero {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            box-shadow: 0 20px 30px -10px rgba(59,130,246,0.3);
-            user-select: none;
-        }
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #3b82f6, #a855f7);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        .hero .tagline {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-
-        /* 通用卡片樣式 */
-        .card {
-            background: var(--card-bg);
-            border-radius: 1.5rem;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-            transition: transform 0.2s;
-        }
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-left: 4px solid var(--accent);
-            padding-left: 1rem;
-        }
-
-        /* 技能標籤 */
-        .skill-tag {
-            display: inline-block;
-            background: var(--code-bg);
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            margin: 0.25rem;
-            border: 1px solid var(--border-color);
-        }
-
-        /* 項目網格 */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-        .project-card {
-            background: var(--card-bg);
-            border-radius: 1.2rem;
-            padding: 1.2rem;
-            border: 1px solid var(--border-color);
-        }
-        .project-card h3 {
-            margin-bottom: 0.5rem;
-        }
-        .project-demo {
-            background: var(--code-bg);
-            border-radius: 1rem;
-            padding: 0.8rem;
-            margin: 1rem 0;
-            text-align: center;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-
-        /* 博客文章列表 */
-        .blog-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .blog-item {
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .blog-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-        }
-        .blog-preview {
-            margin-top: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            display: none;
-        }
-        .blog-preview.show {
-            display: block;
-        }
-        .reading-time {
-            font-size: 0.75rem;
-            color: var(--accent);
-        }
-
-        /* 時間軸 (簡歷) */
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
-        .timeline-item {
-            position: relative;
-            padding-bottom: 1.5rem;
-            border-left: 2px solid var(--accent);
-            padding-left: 1.5rem;
-            margin-left: 0.5rem;
-        }
-        .timeline-item::before {
-            content: "●";
-            position: absolute;
-            left: -0.65rem;
-            color: var(--accent);
-            background: var(--card-bg);
-        }
-
-        /* 媒體櫥窗 */
-        .media-grid {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .media-card {
-            background: var(--code-bg);
-            padding: 0.6rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.85rem;
-        }
-
-        /* 評價 */
-        .testimonial {
-            background: var(--code-bg);
-            padding: 1rem;
-            border-radius: 1rem;
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-
-        /* 終端彩蛋 */
-        .terminal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: monospace;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.2s;
-        }
-        .terminal-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .terminal-window {
-            background: #0a0e1a;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            color: #00ff88;
-        }
-        .terminal-input {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        .terminal-input input {
-            flex: 1;
-            background: #1e293b;
-            border: none;
-            color: #00ff88;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
+            font-family: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            transition: background 0.4s ease, color 0.3s ease;
         }
 
         /* 閱讀進度條 */
@@ -278,65 +57,767 @@
             top: 0;
             left: 0;
             width: 0%;
-            height: 3px;
-            background: var(--accent);
+            height: 4px;
+            background: var(--accent-gradient);
             z-index: 1001;
-            transition: width 0.1s;
+            transition: width 0.1s ease;
         }
 
-        /* 現在頁面特殊卡片 */
-        .now-grid {
+        /* 導航欄 */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px -10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
         }
-        .now-item {
-            background: var(--code-bg);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
         }
 
-        button, .clickable {
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* 浮動快捷鈕 */
+        .controls-group {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+        .theme-toggle {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, background 0.3s;
+            font-size: 1.2rem;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero 頂部區域 */
+        .hero {
+            text-align: center;
+            padding: 3rem 0 4rem;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 32% 68% 68% 32% / 42% 40% 60% 58%;
+            background: var(--accent-gradient);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            box-shadow: 0 20px 40px -10px rgba(37,99,235,0.4);
+            transition: all 0.5s ease;
             cursor: pointer;
         }
+        .avatar:hover {
+            border-radius: 50%;
+            transform: scale(1.05) rotate(5deg);
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+        .hero .name-gradient {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero .tagline {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .hero-desc {
+            max-width: 650px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            background: var(--bg-secondary);
+            padding: 1.2rem 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        /* 現代感卡片 */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 2.2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.08);
+        }
+        body.dark .card:hover {
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.4);
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+        }
+        .section-title i {
+            color: var(--accent);
+            background: rgba(37, 99, 235, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* 技能標籤 */
+        .skill-group-title {
+            font-weight: 700;
+            margin: 1.2rem 0 0.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            display: block;
+        }
+        .skill-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .skill-tag {
+            background: var(--code-bg);
+            padding: 0.4rem 1.1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+        }
+        .skill-tag:hover {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* 項目卡片網格 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .project-card {
+            background: var(--bg-secondary);
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .project-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        .project-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            flex-grow: 1;
+        }
+        .project-demo {
+            background: var(--code-bg);
+            border-radius: 0.8rem;
+            padding: 0.6rem;
+            margin-top: 1.2rem;
+            text-align: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            border: 1px dashed rgba(37, 99, 235, 0.3);
+        }
+
+        /* 優雅時間軸 */
+        .timeline {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-top: 1rem;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border-color);
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: -1.5rem;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 3px solid var(--accent);
+            transform: translateX(-4px);
+            transition: all 0.3s ease;
+        }
+        .timeline-item:hover::after {
+            background: var(--accent);
+            scale: 1.2;
+        }
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .timeline-date {
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: var(--code-bg);
+            padding: 2px 10px;
+            border-radius: 20px;
+            color: var(--accent);
+        }
+
+        /* 折疊部落格文章 */
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .blog-item {
+            padding: 1.2rem;
+            border-radius: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        .blog-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+        }
+        .blog-title:hover {
+            color: var(--accent);
+        }
+        .blog-preview {
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .full-content {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 終端機模擬器 */
+        .terminal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .terminal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .terminal-window {
+            background: #090d16;
+            width: 90%;
+            max-width: 650px;
+            border-radius: 1rem;
+            border: 1px solid #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+            overflow: hidden;
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+        .terminal-header-bar {
+            background: #111827;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #1e293b;
+        }
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+        .terminal-body {
+            padding: 1.5rem;
+            color: #34d399;
+            height: 320px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .terminal-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+            background: #111827;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        .terminal-prompt { color: #60a5fa; font-weight: bold; }
+        .terminal-input-wrap input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #34d399;
+            font-family: inherit;
+            font-size: 0.9rem;
+            padding: 0;
+        }
+        .terminal-input-wrap input:focus { box-shadow: none; }
+        #closeTerminal {
+            background: #1e293b;
+            border: none;
+            color: #94a3b8;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+        }
+        #closeTerminal:hover { background: #334155; color: #fff; }
+
         footer {
             text-align: center;
-            margin-top: 2rem;
+            padding: 3rem 0;
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
         }
-        @media (max-width: 700px) {
-            .container { padding: 1rem; }
-            .hero h1 { font-size: 2rem; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .card { padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
+
 <div class="reading-progress" id="readingProgress"></div>
-<div class="theme-toggle" id="themeToggleBtn">🌙 暗黑</div>
 
-<div class="container">
-    <div class="hero">
-        <div class="avatar" id="easterEggAvatar" style="cursor: pointer;">💻</div>
-        <h1>李瑋晟 · Wilson</h1>
-        <div class="tagline">尋求 2026 暑期實習：電腦文書 ／ 資料處理助理</div>
-        <p style="max-width: 600px; margin: 1rem auto 0; color: var(--text-secondary);">
-            熟練 Office 文書處理，擅長結合 AI 工具提升行政效率。態度積極、守時負責，能穩定產出高準確度的文件與數據表格。
-        </p>
-    </div>
-
-    <div class="card">
-        <div class="section-title">📖 關於我 · 自我介紹</div>
-        <p><strong>我是誰：</strong> 一名現正就讀高二的學生（預計 2027 年畢業）。對電腦操作、自動化行政及數據整理有濃厚興趣與實踐經驗。</p>
-        <p><strong>我擅長：</strong> 熟練操作 Word、Excel、PPT 及 Google 雲端協作工具。並能運用基礎 Python 與 R Cloud 配合 AI 進行資料清洗與圖表製作。</p>
-        <p><strong>工作態度：</strong> 英文程度能看懂常見系統指令及簡單工作電郵（約雅思考試 5.0 以下程度）。遇到不懂之處會查閱詞典或主動詢問，做事細心嚴謹，絕不自作主張，隨時歡迎公司進行實操測試。</p>
-        <div style="margin-top: 1rem;">
-            <span class="skill-tag">📊 精通 Office / Google 雲端</span>
-            <span class="skill-tag">🤖 AI 輔助辦公 (ChatGPT)</span>
-            <span class="skill-tag">🐍 基礎 Python & R 數據整理</span>
-            <span class="skill-tag">⌨️ 中英文打字快且準</span>
+<nav>
+    <div class="nav-container">
+        <span class="logo">Wilson's Lab</span>
+        <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">
+            <span class="status-dot" style="display:inline-block; vertical-align:middle; margin-right:4px;"></span> 
+            2026 數位日誌
         </div>
     </div>
+</nav>
 
-    <div class="card">
-        <div class
+<div class="container">
+    <header class="hero">
+        <div class="status-badge">
+            <span class="status-dot"></span>持續探索新技術中
+        </div>
+        <div class="avatar" id="easterEggAvatar">💻</div>
+        <h1>Hi, 我是 <span class="name-gradient">李瑋晟 (Wilson)</span></h1>
+        <div class="tagline">編程愛好者 · 數位內容探索者</div>
+        <div class="hero-desc">
+            「專注於效率工具與程式自學。喜歡用代碼解決日常生活的小繁瑣，用技術發掘結構化數據背後的樂趣。」
+        </div>
+    </header>
+
+    <section class="card">
+        <div class="section-title"><i class="fa-solid fa-user"></i>關於我</div>
+        <p>我是一名目前就讀高二的學生。在課業之外，我最感興趣的事情就是探索電腦運作、自動化腳本與各種科技工具。</p>
+        <p style="margin-top: 0.8rem;">我喜歡「聰明地解決問題」。除了在學校協助處理多媒體設備與班務資料，我也喜歡在課餘時間深度自學 Python、R Cloud 以及嘗試運用各類生成式 AI（如 ChatGPT）來優化平日的學習與閱讀效率。</p>
+        <p style="margin-top: 0.8rem;">對我而言，編程不只是一個學科，更是一種能把想像變成現實的酷炫工具。我享受發現問題、寫出腳本、成功運作那一刻的成就感！</p>
+    </section>
+
+    <section class="card">
+        <div class="section-title"><i class="fa-solid fa-layer-group"></i>興趣與技能箱</div>
+        
+        <span class="skill-group-title">🤖 編程與智能效率工具</span>
+        <div class="skill-tags-container">
+            <span class="skill-tag">Python (資料處理/爬蟲)</span>
+            <span class="skill-tag">R Cloud 統計圖表</span>
+            <span class="skill-tag">Google Colab 雲端實作</span>
+            <span class="skill-tag">ChatGPT 提示詞應用</span>
+        </div>
+
+        <span class="skill-group-title">📊 數位內容與日常協作</span>
+        <div class="skill-tags-container">
+            <span class="skill-tag">Microsoft Excel / Word / PPT</span>
+            <span class="skill-tag">Google Sheets 數據結構化</span>
+            <span class="skill-tag">雲端即時多人協作</span>
+            <span class="skill-tag">Markdown 筆記</span>
+        </div>
+
+        <span class="skill-group-title">🛠️ 軟硬體維護技能</span>
+        <div class="skill-tags-container">
+            <span class="skill-tag">Windows/Linux 系統安裝</span>
+            <span class="skill-tag">硬體除錯與網絡架設</span>
+            <span class="skill-tag">高效中英文輸入</span>
+        </div>
+    </section>
+
+    <section class="card">
+        <div class="section-title"><i class="fa-solid fa-cubes"></i>代碼實踐案例</div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div>
+                    <h3>🐍 Python 數據清洗嘗試</h3>
+                    <p>編寫基礎 Python 腳本，自動讀取並規範化包含 100+ 行數據的 CSV 文件，剔除重複與錯誤字元，將原本繁瑣的手動工作自動化。</p>
+                </div>
+                <div class="project-demo">scripts/csv_cleaner.py</div>
+            </div>
+            <div class="project-card">
+                <div>
+                    <h3>📈 R Cloud 數據圖表繪製</h3>
+                    <p>利用 R Cloud 雲端平台，配合 AI 指令優化，將靜態、枯燥的結構化數據轉化為直觀且具美感的動態統計圖表。</p>
+                </div>
+                <div class="project-demo">r_cloud/data_viz.R</div>
+            </div>
+            <div class="project-card">
+                <div>
+                    <h3>🏠 家庭智慧記帳看板</h3>
+                    <p>運用 Excel 進階函數與交叉分析篩選器，設計了一套全數字化的開支記帳系統，實現一鍵自動分類與家庭財務趨勢分析。</p>
+                </div>
+                <div class="project-demo">sheets/finance_dashboard.xlsx</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i>技術探索時間軸</div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <span class="timeline-title">大數據與 AI 基礎入門班</span>
+                    <span class="timeline-date">2025</span>
+                </div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">在課外自學進修，了解數據收集、清洗與分析邏輯，並於 Google Colab 平台完成多個微型數據專案。</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <span class="timeline-title">校園多媒體與班級電腦協助</span>
+                    <span class="timeline-date">2024 - 現在</span>
+                </div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">負責協助班級排版行政文件、優化多媒體教學課件，並處理每堂課前的多媒體硬體故障排查。</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <span class="timeline-title">數位工具家庭技術支援</span>
+                    <span class="timeline-date">日常實踐</span>
+                </div>
+                <p style="font-size: 0.95rem; color: var(--text-secondary);">負責處理家中各類電腦故障，包括商用印表機設定、網路分享器調校與系統重灌優化。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <div class="section-title"><i class="fa-solid fa-lightbulb"></i>科技日誌 · 隨筆</div>
+        <div class="blog-list" id="blogList">
+            <div class="blog-item">
+                <div class="blog-title">
+                    <span>💡 關於「快速學習」與工具摸索</span>
+                    <span class="reading-time"><i class="fa-regular fa-clock"></i> 閱讀 2 分鐘</span>
+                </div>
+                <div class="blog-preview">面對未知的軟體與系統，如何快速上手並摸索出核心功能？... <strong>點擊展開</strong></div>
+                <div class="full-content" style="display:none;">面對全新的數位工具，我習慣主動利用官方說明的文檔與線上教學影片進行碎片化快速進修。在遇到不確定的功能指令時，透過「建立測試環境」來驗證可行路徑，不盲目亂試，是我摸索新技術的核心方法。</div>
+            </div>
+            <div class="blog-item">
+                <div class="blog-title">
+                    <span>💡 讓 AI 成為日常自學的專屬副手</span>
+                    <span class="reading-time"><i class="fa-regular fa-clock"></i> 閱讀 3 分鐘</span>
+                </div>
+                <div class="blog-preview">生成式 AI 時代下，如何將 Prompt 轉化為高效的學習力？... <strong>點擊展開</strong></div>
+                <div class="full-content" style="display:none;">在閱讀冗長或外文的技術規範時，我會透過精準的 Prompt 指令讓 ChatGPT 進行高準確度的語境翻譯與重點摘要，這讓我能以數倍的速度吸收新知。同時，AI 還能作為我編寫 Python 腳本時的「語法校對導師」，雙重保障我的代碼產出品質。</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <div class="section-title"><i class="fa-solid fa-face-smile"></i>關於 Wilson 的冷知識</div>
+        <p style="font-size: 0.95rem; color: var(--text-secondary);">
+            💻 程式原則：寫出的代碼不管多簡單，必定強制執行邊界測試，維持強迫症式的整潔。<br>
+            🧠 MBTI 性格：INFJ (提倡者) — 理想主義但做事細緻、條理分明。<br>
+            ✨ 網頁彩蛋：試試連續點擊上方大頭貼 5 次，或在鍵盤輸入經典遊戲秘籍（Konami Code），即可喚醒彩蛋！
+        </p>
+    </section>
+
+    <footer>✨ 腳踏實地 · 保持創造 | 本站支援高級暗黑模式 & 終端彩蛋 ✨</footer>
+</div>
+
+<div class="controls-group">
+    <div class="theme-toggle" id="themeToggleBtn" title="切換主題">🌙</div>
+</div>
+
+<div id="terminalModal" class="terminal-overlay">
+    <div class="terminal-window">
+        <div class="terminal-header-bar">
+            <div class="terminal-dots">
+                <div class="terminal-dot dot-red"></div>
+                <div class="terminal-dot dot-yellow"></div>
+                <div class="terminal-dot dot-green"></div>
+            </div>
+            <div style="color: #64748b; font-size: 0.8rem; font-weight: bold;">wilson-core-terminal.sh</div>
+            <button id="closeTerminal">關閉</button>
+        </div>
+        <div class="terminal-body" id="terminalOutput">
+            <div>⚡ Welcome to Wilson's Core Terminal v1.2</div>
+            <div>輸入 <span style="color:#f59e0b; font-weight:bold;">help</span> 查看可用核心指令</div>
+            <br>
+        </div>
+        <div class="terminal-input-wrap">
+            <span class="terminal-prompt">guest@wilson.cv:~$</span>
+            <input type="text" id="terminalCmd" autocomplete="off" placeholder="...">
+        </div>
+    </div>
+</div>
+
+<script>
+    // 智能暗黑模式切換
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    if(localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+        toggleBtn.innerText = '☀️';
+    }
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        toggleBtn.innerText = isDark ? '☀️' : '🌙';
+    });
+
+    // 部落格展開/折疊功能
+    const blogItems = document.querySelectorAll('.blog-item');
+    blogItems.forEach(item => {
+        const titleDiv = item.querySelector('.blog-title');
+        const preview = item.querySelector('.blog-preview');
+        const fullContent = item.querySelector('.full-content');
+        titleDiv.addEventListener('click', () => {
+            if(fullContent.style.display === 'none') {
+                fullContent.style.display = 'block';
+                preview.style.display = 'none';
+            } else {
+                fullContent.style.display = 'none';
+                preview.style.display = 'block';
+            }
+        });
+    });
+
+    // 高流暢度滾動閱讀進度條
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('readingProgress').style.width = scrolled + '%';
+    });
+
+    // 彩蛋 1: 連續點擊頭像 5 次觸發星光撒花
+    let avatarClickCount = 0;
+    const avatarDiv = document.getElementById('easterEggAvatar');
+    avatarDiv.addEventListener('click', () => {
+        avatarClickCount++;
+        if(avatarClickCount >= 5) {
+            alert('✨ 彩蛋觸發！歡迎來到 Wilson 的實驗空間 ✨\n“保持好奇心，用代碼和創意記錄世界。”');
+            avatarClickCount = 0;
+            confettiEffect();
+        }
+        setTimeout(() => { avatarClickCount = 0; }, 2000);
+    });
+
+    function confettiEffect() {
+        for(let i=0; i<60; i++) {
+            const dot = document.createElement('div');
+            dot.innerText = '⭐';
+            dot.style.position = 'fixed';
+            dot.style.left = Math.random() * window.innerWidth + 'px';
+            dot.style.top = '-20px';
+            dot.style.fontSize = Math.random() * 15 + 15 + 'px';
+            dot.style.pointerEvents = 'none';
+            dot.style.zIndex = '9999';
+            dot.style.animation = `fall ${Math.random() * 1.5 + 1.5}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+            document.body.appendChild(dot);
+            setTimeout(() => dot.remove(), 3000);
+        }
+    }
+    const style = document.createElement('style');
+    style.textContent = `@keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity:0; } }`;
+    document.head.appendChild(style);
+
+    // 彩蛋 2: 經典柯納米密碼 (Konami Code) 喚醒後台終端
+    let konami = [];
+    const konamiCode = 'arrowup,arrowup,arrowdown,arrowdown,arrowleft,arrowright,arrowleft,arrowright,b,a';
+    document.addEventListener('keydown', (e) => {
+        let key = e.key.toLowerCase();
+        konami.push(key);
+        if(konami.length > 15) konami.shift();
+        if(konami.join(',').includes(konamiCode)) {
+            document.getElementById('terminalModal').classList.add('active');
+            document.getElementById('terminalCmd').focus();
+            konami = [];
+        }
+    });
+
+    // 終端機模擬命令交互邏輯
+    const terminalModal = document.getElementById('terminalModal');
+    const terminalCmd = document.getElementById('terminalCmd');
+    const terminalOutput = document.getElementById('terminalOutput');
+    
+    document.getElementById('closeTerminal').addEventListener('click', () => {
+        terminalModal.classList.remove('active');
+    });
+    
+    terminalCmd.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') {
+            const cmd = terminalCmd.value.trim().toLowerCase();
+            let output = '';
+            
+            if(cmd === 'help') output = '可用指令目錄: <span style="color:#60a5fa">about</span>, <span style="color:#60a5fa">projects</span>, <span style="color:#60a5fa">skills</span>, <span style="color:#60a5fa">status</span>, <span style="color:#60a5fa">clear</span>';
+            else if(cmd === 'about') output = '李瑋晟 (Wilson)：高二在讀學生，熱衷於自動化指令碼編寫與數位效率工具自學。';
+            else if(cmd === 'projects') output = '1. Python數據清洗CSV自動化工具\n2. R Cloud數據視覺化圖表\n3. 全數位家庭記帳系統';
+            else if(cmd === 'skills') output = '編程：Python (資料清洗/小腳本), R Cloud。\n工具：Microsoft & Google 辦公室生態、ChatGPT Prompt 實踐。';
+            else if(cmd === 'status') output = '目前進度：研究如何利用 Python 寫出自動化定時提醒小工具，並優化個人網頁前端。';
+            else if(cmd === 'clear') { 
+                terminalOutput.innerHTML = '<div>⚡ Terminal 緩存已清除。輸入 help 重新獲取說明。</div><br>'; 
+                terminalCmd.value = ''; 
+                return; 
+            }
+            else output = `command not found: <span style="color:#ef4444">${cmd}</span>. 輸入 help 獲取有效指令。`;
+            
+            terminalOutput.innerHTML += `<div><span style="color:#60a5fa">guest@wilson.cv:~$</span> ${cmd}</div><div style="margin-bottom:0.8rem; white-space: pre-wrap;">${output}</div>`;
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            terminalCmd.value = '';
+        }
+    });
+</script>
+</body>
+</html>
