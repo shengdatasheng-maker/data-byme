@@ -2,649 +2,623 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>📚 校园羊了个羊 · 学霸堆栈乐 🎒</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Sheng的个人网站 | 音乐制作人 · 独立开发者 · 创意工程师">
+    <title>Sheng · 音律与代码的筑梦者</title>
     <style>
         * {
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
+        /* CSS 变量 - 支持暗黑模式 */
+        :root {
+            --bg-primary: #f5f7fe;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a1f2e;
+            --text-secondary: #4a5568;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59,130,246,0.2);
+            --code-bg: #f1f5f9;
+            --shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+        }
+
+        body.dark {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --text-primary: #f0f3fa;
+            --text-secondary: #9ca3af;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --accent: #60a5fa;
+            --code-bg: #0f172a;
+            --shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+        }
+
         body {
-            margin: 0;
-            min-height: 100vh;
-            background: linear-gradient(145deg, #2f6b47 0%, #1d3e2a 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', 'Poppins', 'Press Start 2P', system-ui, 'Comic Neue', cursive;
-            padding: 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.2s;
         }
 
-        /* 游戏主面板 — 校园黑板报风格 */
-        .game-container {
-            background: #fef1cf;
-            backdrop-filter: blur(2px);
-            border-radius: 72px;
-            padding: 22px 20px 28px;
-            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 250, 200, 0.8);
-            border: 2px solid #ffda99;
-        }
-
-        canvas {
-            display: block;
+        .container {
+            max-width: 1280px;
             margin: 0 auto;
-            border-radius: 48px;
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4), inset 0 0 0 4px #fff3cf;
-            background: #fff7e8;
-            cursor: pointer;
-            width: 100%;
-            height: auto;
-            max-width: 700px;
+            padding: 2rem 1.5rem;
         }
 
-        .info-area {
+        /* 暗黑模式切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 60px;
+            padding: 12px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        /* 头部区域 */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            box-shadow: 0 20px 30px -10px rgba(59,130,246,0.3);
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .hero .tagline {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* 通用卡片样式 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        /* 技能标签 */
+        .skill-tag {
+            display: inline-block;
+            background: var(--code-bg);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* 项目网格 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+        }
+        .project-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        .project-demo {
+            background: var(--code-bg);
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        /* 博客文章列表 */
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .blog-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .blog-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            gap: 25px;
-            margin-top: 20px;
-            padding: 8px 28px;
-            background: #2e2a1ed9;
-            backdrop-filter: blur(8px);
-            border-radius: 100px;
-            border: 1px solid #ffe3a3;
         }
-
-        .score-card {
-            background: #1e2a1a;
-            border-radius: 56px;
-            padding: 5px 20px;
-            font-family: monospace;
-            font-weight: bold;
-            box-shadow: inset 0 1px 4px #00000033, 0 5px 10px #0000002e;
+        .blog-preview {
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: none;
         }
-
-        .score-label {
-            font-size: 0.8rem;
-            color: #ffe2a4;
-            background: #8b5a2b;
-            padding: 3px 14px;
-            border-radius: 50px;
-            margin-right: 12px;
-            letter-spacing: 1px;
+        .blog-preview.show {
+            display: block;
         }
-
-        .score-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ffefb9;
-            text-shadow: 0 2px 0 #67471f;
-        }
-
-        .slot-warning {
-            background: #392e1d;
-            padding: 5px 18px;
-            border-radius: 44px;
-            color: #fedc83;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        button {
-            background: #ffbc5e;
-            border: none;
-            font-family: inherit;
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 7px 25px;
-            border-radius: 60px;
-            color: #2f2412;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #9b5e2c;
-            transition: 0.06s linear;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        button:active {
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #9b5e2c;
-        }
-        .tip {
-            margin-top: 14px;
-            background: #f5e6c4e6;
-            backdrop-filter: blur(4px);
-            border-radius: 44px;
-            padding: 7px 16px;
+        .reading-time {
             font-size: 0.75rem;
-            text-align: center;
-            color: #3a2c18;
-            font-weight: bold;
+            color: var(--accent);
         }
 
-        @media (max-width: 550px) {
-            .score-number {
-                font-size: 1.4rem;
-            }
-            button {
-                font-size: 0.85rem;
-                padding: 5px 16px;
-            }
-            .slot-warning {
-                font-size: 0.7rem;
-            }
+        /* 时间轴 (简历) */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+            border-left: 2px solid var(--accent);
+            padding-left: 1.5rem;
+            margin-left: 0.5rem;
+        }
+        .timeline-item::before {
+            content: "●";
+            position: absolute;
+            left: -0.65rem;
+            color: var(--accent);
+            background: var(--card-bg);
+        }
+
+        /* 媒体橱窗 */
+        .media-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .media-card {
+            background: var(--code-bg);
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+        }
+
+        /* 评价 */
+        .testimonial {
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* 终端彩蛋 */
+        .terminal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .terminal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .terminal-window {
+            background: #0a0e1a;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            color: #00ff88;
+        }
+        .terminal-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .terminal-input input {
+            flex: 1;
+            background: #1e293b;
+            border: none;
+            color: #00ff88;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        /* 阅读进度条 */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1001;
+            transition: width 0.1s;
+        }
+
+        /* 现在页面特殊卡片 */
+        .now-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .now-item {
+            background: var(--code-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+        }
+
+        button, .clickable {
+            cursor: pointer;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
-<div>
-    <div class="game-container">
-        <canvas id="gameCanvas" width="650" height="550"></canvas>
-        <div class="info-area">
-            <div class="score-card">
-                <span class="score-label">📖 知识积分</span>
-                <span class="score-number" id="scoreValue">0</span>
-            </div>
-            <div class="slot-warning">
-                🎒 待办槽位: <span id="slotCount">0</span>/7
-            </div>
-            <button id="resetGameBtn">🏫 新的一课</button>
+<div class="reading-progress" id="readingProgress"></div>
+<div class="theme-toggle" id="themeToggleBtn">🌙 暗黑</div>
+
+<div class="container">
+    <!-- Hero + 关于我 -->
+    <div class="hero">
+        <div class="avatar" id="easterEggAvatar">🎧</div>
+        <h1>Sheng · 音律构筑者</h1>
+        <div class="tagline">音乐制作人 / 独立开发者 / 创意工程师</div>
+        <p style="max-width: 600px; margin: 1rem auto 0; color: var(--text-secondary);">用代码谱写旋律，用算法生成梦境。相信创造是唯一不会后悔的事。</p>
+    </div>
+
+    <!-- 关于我（升级版） -->
+    <div class="card">
+        <div class="section-title">📖 关于我 · 大白话版</div>
+        <p><strong>我是谁：</strong> 一个白天写代码、深夜做 beats 的斜杠青年。热爱把抽象逻辑变成可听可感的作品。</p>
+        <p><strong>我擅长：</strong> 音乐制作（Logic Pro / Ableton）、前端创意编程、独立游戏开发。最近沉迷于声音可视化与生成艺术。</p>
+        <p><strong>我感兴趣：</strong> 氛围电子、交互叙事、AI辅助创作。以及一切能让人「Wow」的创意技术。</p>
+        <div style="margin-top: 1rem;">
+            <span class="skill-tag">🎹 音乐制作8年</span>
+            <span class="skill-tag">⚛️ React/Vue</span>
+            <span class="skill-tag">🎮 独立开发</span>
         </div>
-        <div class="tip">
-            🧸 点击校园物品 → 放入底部「待办槽」 | 凑齐3件相同物品 → 完成作业+得分！槽位满7则会挂科 😢 <br>
-            📚 多层堆叠卡牌考验规划力，先拿上层更轻松！笔、书本、苹果、奖杯、书包、咖啡 —— 全科制霸！
+    </div>
+
+    <!-- 项目展示 Portfolio -->
+    <div class="card">
+        <div class="section-title">🚀 作品集 · 我解决了什么</div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>🎵 星尘回响 · 节奏游戏</h3>
+                <p>一个音乐可视化互动游戏，解决的是「让非专业玩家也能通过节奏获得心流体验」。利用Web Audio合成氛围+动态难度算法，玩家完美击中时绽放粒子特效。</p>
+                <div class="project-demo">🎮 在线体验 ↓ (网站内游戏厅模块)</div>
+            </div>
+            <div class="project-card">
+                <h3>✨ 声景生成器 · 创意工具</h3>
+                <p>用AI生成环境氛围音乐，解决了创作者寻找免版税氛围音乐的痛点。支持实时参数调制，输出高质量WAV。</p>
+                <div class="project-demo">🔊 技术栈: Tone.js + Python后端</div>
+            </div>
+            <div class="project-card">
+                <h3>📝 个人博客系统</h3>
+                <p>从0搭建的极简博客，解决「技术写作需要专注环境」的问题。支持Markdown、阅读时间预估、代码高亮。</p>
+            </div>
         </div>
+    </div>
+
+    <!-- 互动式简历 时间轴 -->
+    <div class="card">
+        <div class="section-title">📜 互动简历 · 经历时间轴</div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <strong>2024 - 至今</strong> | 独立音乐人/开发者<br>
+                发布个人EP《星尘组曲》，开发3款音乐互动网页，累计访问2w+。
+            </div>
+            <div class="timeline-item">
+                <strong>2022 - 2024</strong> | 某科技公司 · 前端工程师<br>
+                负责设计系统与可视化大屏，优化性能提升40%渲染效率。
+            </div>
+            <div class="timeline-item">
+                <strong>2020 - 2022</strong> | 自由职业 · 多媒体创作者<br>
+                为独立游戏配乐，制作多个音乐可视化作品。
+            </div>
+        </div>
+    </div>
+
+    <!-- 技能树 / 工具箱 -->
+    <div class="card">
+        <div class="section-title">🛠️ 技能 & 工具箱</div>
+        <div>
+            <strong>编程语言</strong>
+            <div><span class="skill-tag">JavaScript/TypeScript</span><span class="skill-tag">Python</span><span class="skill-tag">Rust</span></div>
+        </div>
+        <div style="margin-top: 1rem;">
+            <strong>框架/工具</strong>
+            <div><span class="skill-tag">React</span><span class="skill-tag">Vue3</span><span class="skill-tag">Node.js</span><span class="skill-tag">Three.js</span><span class="skill-tag">Web Audio</span></div>
+        </div>
+        <div style="margin-top: 1rem;">
+            <strong>创意软件</strong>
+            <div><span class="skill-tag">Ableton Live</span><span class="skill-tag">Logic Pro</span><span class="skill-tag">Figma</span><span class="skill-tag">TouchDesigner</span></div>
+        </div>
+        <p style="margin-top: 0.8rem; font-size:0.85rem;">※ 不用百分比条，因为成长永无止境 ✨</p>
+    </div>
+
+    <!-- 个人博客 带阅读进度 -->
+    <div class="card">
+        <div class="section-title">✍️ 个人博客 · 思维回响</div>
+        <div class="blog-list" id="blogList">
+            <div class="blog-item" data-blog-id="0">
+                <div class="blog-title">
+                    <span>关于独立开发者的时间管理哲学</span>
+                    <span class="reading-time">阅读 4 分钟</span>
+                </div>
+                <div class="blog-preview">很多人问我，既要写代码又要做音乐，时间怎么分配？我的答案是「主题月」... <strong>点击展开全文</strong></div>
+                <div class="blog-preview full-content" style="display:none;">全文：每个月我只聚焦一个大主题，比如「三月: 开发节奏游戏引擎」「四月: 混音母带进阶」，碎片时间用来输入而非产出。这样反而效率更高。核心原则：保护心流，拒绝多任务。</div>
+            </div>
+            <div class="blog-item" data-blog-id="1">
+                <div class="blog-title">
+                    <span>Web Audio API 实践：从零构建合成器</span>
+                    <span class="reading-time">阅读 6 分钟</span>
+                </div>
+                <div class="blog-preview">OscillatorNode, GainNode 以及滤波器串联，带你写出第一个浏览器合成器... <strong>点击展开</strong></div>
+                <div class="blog-preview full-content" style="display:none;">全文：利用AudioContext创建振荡器，添加ADSR包络，最终实现一个可以响应鼠标位置改变音高的迷你合成器。代码片段已上传GitHub。这也是本站游戏厅的底层技术基石。</div>
+            </div>
+            <div class="blog-item" data-blog-id="2">
+                <div class="blog-title">
+                    <span>2025 年度歌单 & 声音灵感</span>
+                    <span class="reading-time">阅读 2 分钟</span>
+                </div>
+                <div class="blog-preview">最近在循环 Ólafur Arnalds, 以及一些氛围 breaks。分享我的声音收集方式... <strong>点击展开</strong></div>
+                <div class="blog-preview full-content" style="display:none;">全文：使用Last.fm记录听歌历史 + 每月整理「声景笔记」，同时用网易云API抓取歌单。艺术是输入与输出的平衡。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 客户/同行评价 -->
+    <div class="card">
+        <div class="section-title">💬 同行·伙伴说</div>
+        <div class="testimonial">“和Sheng合作游戏音频是一次享受，他总能精准理解叙事需求，而且产出的demo几乎不用修改。” — 独立游戏制作人 @林南</div>
+        <div class="testimonial" style="margin-top: 0.8rem;">“前端代码非常优雅，而且对用户体验细节有近乎偏执的追求。绝对是团队里最有创造力的工程师。” — 前同事 Emma</div>
+    </div>
+
+    <!-- 现在页面 /now 热门概念 -->
+    <div class="card">
+        <div class="section-title">🌱 现在 · 进行时</div>
+        <p><strong>最近几周正在忙：</strong></p>
+        <div class="now-grid">
+            <span class="now-item">📖 在读《设计声音》</span>
+            <span class="now-item">🎧 循环播放：Nils Frahm 现场专辑</span>
+            <span class="now-item">💻 死磕: Rust + WebAssembly 音频处理</span>
+            <span class="now-item">🏋️ 挑战: 每日45分钟健身</span>
+        </div>
+        <p style="margin-top: 1rem; font-size:0.85rem;">(更新于 2026年6月 · 灵感来自 /now 运动)</p>
+    </div>
+
+    <!-- 媒体橱窗 + 音乐接入模拟 -->
+    <div class="card">
+        <div class="section-title">📀 媒体橱窗 · 灵感补给</div>
+        <div><strong>🎬 最近在看：</strong> 《拾荒者统治》—— 想象力爆棚的科幻动画</div>
+        <div style="margin-top: 0.5rem;"><strong>📚 书单：</strong> 《创意选择》《设计声音》《代码之髓》</div>
+        <div style="margin-top: 0.5rem;"><strong>🎵 近期在听 (Spotify风格)：</strong> <span id="nowPlaying">加载中...</span></div>
+        <div class="media-grid" style="margin-top: 0.8rem;">
+            <div class="media-card">🎸 年度歌单: 氛围电子/古典极简</div>
+            <div class="media-card">🎧 自制Mixtape: '星尘序曲'</div>
+        </div>
+    </div>
+
+    <!-- 趣味 Q&A + 冷知识 -->
+    <div class="card">
+        <div class="section-title">🤔 冷知识 · 趣味问答</div>
+        <p>☕ 每天必须喝: 冰美式 (不加糖 不加奶)<br>
+        😻 猫奴属性: 有一个叫「音符」的黑猫<br>
+        🧠 MBTI: INFJ (提倡者) — 理想主义但务实<br>
+        🎮 隐藏技能: 连续点击我头像会有惊喜 ✨</p>
+    </div>
+
+    <!-- 联系表单 / 极简 -->
+    <div class="card">
+        <div class="section-title">📬 联系 · 共振瞬间</div>
+        <form id="contactForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <input type="email" id="contactEmail" placeholder="你的邮箱" style="padding: 0.8rem; border-radius: 2rem; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+            <textarea id="contactMsg" rows="2" placeholder="说点什么吧..." style="padding: 0.8rem; border-radius: 1.2rem; border: 1px solid var(--border-color); background: var(--bg-primary);"></textarea>
+            <button type="submit" style="width: fit-content; background: var(--accent); border: none; padding: 0.6rem 1.8rem; border-radius: 3rem; color: white; font-weight: bold; cursor: pointer;">✨ 发送星信</button>
+        </form>
+        <div style="margin-top: 1rem; text-align: center;">
+            <a href="mailto:sheng@example.com" style="color: var(--accent);">📧 shengdatasheng@gmail.com</a>
+            <span style="margin: 0 1rem">|</span>
+            <a href="#" style="color: var(--accent);">🐙 GitHub</a>
+            <span style="margin: 0 0.5rem">|</span>
+            <a href="#" style="color: var(--accent);">🔗 LinkedIn</a>
+        </div>
+    </div>
+
+    <footer>✨ 保持创造 · 数字花园不断生长 | 本站支持暗黑模式 & 终端彩蛋 ✨</footer>
+</div>
+
+<!-- 终端彩蛋窗口 -->
+<div id="terminalModal" class="terminal-overlay">
+    <div class="terminal-window">
+        <div style="color:#fff;">⚡ Sheng 的终端接口 v1.0</div>
+        <div id="terminalOutput">输入 help 查看可执行命令</div>
+        <div class="terminal-input">
+            <span>$&nbsp;</span>
+            <input type="text" id="terminalCmd" autocomplete="off">
+        </div>
+        <button id="closeTerminal" style="margin-top: 1rem; background:#334155; border:none; padding:0.3rem 1rem; border-radius: 0.5rem; color:white;">关闭</button>
     </div>
 </div>
 
 <script>
-    (function(){
-        // ---------- 画布元素 ----------
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreSpan = document.getElementById('scoreValue');
-        const slotCountSpan = document.getElementById('slotCount');
-        
-        // 固定宽高
-        const W = 650, H = 550;
-        canvas.width = W;
-        canvas.height = H;
-        
-        // ---------- 校园主题配置 ----------
-        const MAX_SLOT = 7;              // 槽位上限 (羊了个羊核心机制)
-        const CARD_TYPES = 6;           // 六种校园物品
-        
-        // 校园风图案与配色
-        const CARD_ITEMS = [
-            "✏️ 铅笔",    // 1
-            "📘 课本",    // 2
-            "🍎 苹果",    // 3
-            "🏆 奖杯",    // 4
-            "🎒 书包",    // 5
-            "☕ 咖啡"     // 6 (熬夜学习必备)
-        ];
-        const CARD_COLORS = [
-            "#e0b05c", // 铅笔木色
-            "#4d7c8c", // 课本蓝
-            "#e35f45", // 苹果红
-            "#e8b338", // 奖杯金
-            "#6b4c3b", // 书包棕
-            "#a5673f"  // 咖啡暖棕
-        ];
-        const CARD_ICONS = ["✏️", "📘", "🍎", "🏆", "🎒", "☕"];
-        
-        // 堆叠网格 (5行 x 4列 = 20个网格，每个格子有多张卡片堆叠，模仿羊了个羊多层)
-        let boardStacks = [];     // boardStacks[row][col] = [卡片类型id数组] (从底向上)
-        let slotCards = [];        // 当前槽位存放的卡片id (1~6)
-        let totalScore = 0;        
-        let gameOver = false;      // 游戏结束标志 (槽位满或通关)
-        
-        const GRID_ROWS = 5;
-        const GRID_COLS = 4;
-        
-        // ---------- 辅助函数 ----------
-        function countTotalRemainCards() {
-            let cnt = 0;
-            for(let r=0; r<GRID_ROWS; r++){
-                for(let c=0; c<GRID_COLS; c++){
-                    cnt += boardStacks[r][c].length;
-                }
-            }
-            return cnt;
-        }
-        
-        function updateScoreUI(){
-            scoreSpan.innerText = totalScore;
-        }
-        
-        function updateSlotUI(){
-            slotCountSpan.innerText = `${slotCards.length}/${MAX_SLOT}`;
-            // 槽位样式危险提醒
-            const slotDiv = document.querySelector('.slot-warning');
-            if(slotCards.length >= MAX_SLOT-1){
-                slotDiv.style.background = "#a13e2ddd";
-                slotDiv.style.color = "#ffebaf";
+    // 暗黑模式切换 + 本地存储
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        toggleBtn.innerText = document.body.classList.contains('dark') ? '☀️ 明亮' : '🌙 暗黑';
+    });
+    toggleBtn.innerText = document.body.classList.contains('dark') ? '☀️ 明亮' : '🌙 暗黑';
+
+    // 博客展开/折叠功能 + 阅读进度条
+    const blogItems = document.querySelectorAll('.blog-item');
+    blogItems.forEach(item => {
+        const titleDiv = item.querySelector('.blog-title');
+        const preview = item.querySelector('.blog-preview');
+        const fullContent = item.querySelector('.full-content');
+        titleDiv.addEventListener('click', () => {
+            if(fullContent.style.display === 'none') {
+                fullContent.style.display = 'block';
+                preview.style.display = 'none';
             } else {
-                slotDiv.style.background = "#392e1d";
+                fullContent.style.display = 'none';
+                preview.style.display = 'block';
             }
+        });
+    });
+
+    // 滚动阅读进度条
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('readingProgress').style.width = scrolled + '%';
+    });
+
+    // 复活节彩蛋: 连续点击头像5次触发撒花 (简单模拟)
+    let avatarClickCount = 0;
+    const avatarDiv = document.querySelector('.avatar');
+    avatarDiv.addEventListener('click', () => {
+        avatarClickCount++;
+        if(avatarClickCount >= 5) {
+            alert('✨ 彩蛋触发！你发现了隐藏的魔法 ✨\n“保持好奇，世界充满韵律”');
+            avatarClickCount = 0;
+            // 简单撒花效果
+            confettiEffect();
         }
-        
-        // 检查槽位消除 (凑齐三个相同消除)
-        function tryEliminateFromSlot() {
-            if(slotCards.length < 3) return false;
-            // 统计每种类型数量
-            let countMap = new Array(CARD_TYPES+1).fill(0);
-            for(let card of slotCards){
-                countMap[card]++;
-            }
-            let anyElim = false;
-            for(let t=1; t<=CARD_TYPES; t++){
-                if(countMap[t] >= 3){
-                    // 消除3个该类型
-                    let removed = 0;
-                    let newSlot = [];
-                    for(let card of slotCards){
-                        if(card === t && removed < 3){
-                            removed++;
-                            continue;
-                        }
-                        newSlot.push(card);
-                    }
-                    slotCards = newSlot;
-                    totalScore += 10;   // 完成一组作业+10分
-                    updateScoreUI();
-                    anyElim = true;
-                    // 因为槽位变动，需要递归检查连续消除 (类似于羊了个羊连锁)
-                    return tryEliminateFromSlot(); // 继续消除直到稳定
-                }
-            }
-            return anyElim;
+        setTimeout(() => { avatarClickCount = 0; }, 2000);
+    });
+
+    function confettiEffect() {
+        // 简易模拟撒花
+        for(let i=0;i<50;i++) {
+            const dot = document.createElement('div');
+            dot.innerText = '✨';
+            dot.style.position = 'fixed';
+            dot.style.left = Math.random() * window.innerWidth + 'px';
+            dot.style.top = '0px';
+            dot.style.fontSize = '20px';
+            dot.style.pointerEvents = 'none';
+            dot.style.zIndex = '9999';
+            dot.style.animation = `fall ${Math.random() * 2 + 1}s linear forwards`;
+            document.body.appendChild(dot);
+            setTimeout(() => dot.remove(), 2000);
         }
-        
-        // 添加卡片到槽位 (核心逻辑)
-        function addCardToSlot(cardType){
-            if(gameOver) return false;
-            if(slotCards.length >= MAX_SLOT){
-                // 槽位满，游戏结束
-                gameOver = true;
-                updateSlotUI();
-                renderGame();
-                return false;
-            }
-            slotCards.push(cardType);
-            updateSlotUI();
-            // 尝试消除
-            tryEliminateFromSlot();
-            updateSlotUI();
-            // 消除后再次检查槽位有没有爆满
-            if(slotCards.length >= MAX_SLOT && !gameOver){
-                // 如果消除后仍然满槽且没有消除可能？满槽但没能消除 -> 游戏结束
-                let hasMatch = false;
-                let cntMap = new Array(CARD_TYPES+1).fill(0);
-                for(let c of slotCards) cntMap[c]++;
-                for(let i=1;i<=CARD_TYPES;i++) if(cntMap[i]>=3) hasMatch=true;
-                if(!hasMatch){
-                    gameOver = true;
-                } else {
-                    // 理论上前面tryEliminateFromSlot会递归消除干净，若还存在满槽但未消除？再调一次
-                    tryEliminateFromSlot();
-                    updateSlotUI();
-                    if(slotCards.length >= MAX_SLOT){
-                        let stillFull = true;
-                        let map2 = new Array(CARD_TYPES+1).fill(0);
-                        for(let c of slotCards) map2[c]++;
-                        for(let i=1;i<=CARD_TYPES;i++) if(map2[i]>=3) stillFull=false;
-                        if(stillFull) gameOver = true;
-                    }
-                }
-            }
-            // 胜利判定：所有卡片堆为空 且 槽位没有强制满卡结束
-            const remainCards = countTotalRemainCards();
-            if(remainCards === 0 && !gameOver){
-                // 完美通关！
-                gameOver = true;
-                // 额外显示胜利消息，绘制时会有体现
-            }
-            renderGame();
-            return true;
+    }
+    const style = document.createElement('style');
+    style.textContent = `@keyframes fall { to { transform: translateY(100vh); opacity:0; } }`;
+    document.head.appendChild(style);
+
+    // 终端彩蛋: 键盘上下左右（上上下下左右左右BA）
+    let konami = [];
+    const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','B','a','A'];
+    document.addEventListener('keydown', (e) => {
+        konami.push(e.key);
+        if(konami.length > 12) konami.shift();
+        if(konami.join(',').includes(konamiCode.join(','))) {
+            document.getElementById('terminalModal').classList.add('active');
+            konami = [];
         }
-        
-        // 处理点击卡牌 (取顶部卡片)
-        function handleCardClick(row, col){
-            if(gameOver) return false;
-            const stack = boardStacks[row][col];
-            if(stack.length === 0) return false; // 无卡片
-            
-            // 取出顶部卡片 (最后一个元素)
-            const topCard = stack.pop();
-            // 添加到槽位
-            addCardToSlot(topCard);
-            // 重新渲染
-            renderGame();
-            // 若游戏结束显示结局
-            return true;
+    });
+
+    // 终端命令逻辑
+    const terminalModal = document.getElementById('terminalModal');
+    const terminalCmd = document.getElementById('terminalCmd');
+    const terminalOutput = document.getElementById('terminalOutput');
+    document.getElementById('closeTerminal').addEventListener('click', () => {
+        terminalModal.classList.remove('active');
+    });
+    terminalCmd.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') {
+            const cmd = terminalCmd.value.trim().toLowerCase();
+            let output = '';
+            if(cmd === 'help') output = '可用命令: about, projects, contact, skills, now, clear';
+            else if(cmd === 'about') output = 'Sheng: 音乐制作人/独立开发者，擅长创意编程与声音设计。';
+            else if(cmd === 'projects') output = '作品: 星尘回响游戏、声景生成器、互动博客。详情见网站作品集模块。';
+            else if(cmd === 'contact') output = '邮箱: shengdatasheng@gmail.com | GitHub: github.com/sheng';
+            else if(cmd === 'skills') output = '技术栈: React, Vue, Node, Web Audio, Python, Rust. 创意: Ableton, Figma';
+            else if(cmd === 'now') output = '正在读《设计声音》，钻研Rust+Wasm，循环Nils Frahm。';
+            else if(cmd === 'clear') { terminalOutput.innerHTML = ''; terminalCmd.value = ''; return; }
+            else output = `未知命令: ${cmd}. 输入 help 获取帮助`;
+            terminalOutput.innerHTML += `<div>> ${cmd}</div><div>${output}</div>`;
+            terminalCmd.value = '';
         }
-        
-        // ---------- 重置/初始化校园主题堆叠 ----------
-        function initSchoolGame() {
-            // 构建多层校园物品堆 (模仿羊了个羊难度)
-            boardStacks = Array(GRID_ROWS).fill().map(() => Array(GRID_COLS).fill().map(() => []));
-            // 生成有趣又不至于太简单的多层结构：每个格子至少1张，部分2~3张，且使得高价值物品分布
-            let totalCards = 0;
-            // 先确保每个格子至少有一张
-            for(let r=0; r<GRID_ROWS; r++){
-                for(let c=0; c<GRID_COLS; c++){
-                    let layers = 1;
-                    if(Math.random() < 0.65) layers = 2;   // 中高层
-                    if(Math.random() < 0.3) layers = 3;    // 深层堆叠
-                    // 边界限制防止过多卡顿
-                    layers = Math.min(layers, 3);
-                    let stack = [];
-                    for(let i=0;i<layers;i++){
-                        let cardType = Math.floor(Math.random() * CARD_TYPES) + 1;
-                        stack.push(cardType);
-                        totalCards++;
-                    }
-                    boardStacks[r][c] = stack;
-                }
-            }
-            // 额外让校园主题分布更均衡：保证每个类型卡片总数不是太少，但随机创造挑战
-            // 为了避免初始某些堆太浅，随机增加一些到空位（这里保证每个格子都有）
-            for(let r=0; r<GRID_ROWS; r++){
-                for(let c=0; c<GRID_COLS; c++){
-                    if(boardStacks[r][c].length === 0){
-                        boardStacks[r][c].push(Math.floor(Math.random() * CARD_TYPES) + 1);
-                        totalCards++;
-                    }
-                }
-            }
-            
-            // 重置游戏状态
-            slotCards = [];
-            totalScore = 0;
-            gameOver = false;
-            updateScoreUI();
-            updateSlotUI();
-            renderGame();
-        }
-        
-        // ---------- 华丽绘图模块 (校园手绘风格) ----------
-        function drawCardStack(x, y, w, h, stackArray, isTopHighlight = false){
-            // 画堆叠卡片背景阴影
-            const cnt = stackArray.length;
-            if(cnt === 0){
-                // 画空槽虚线
-                ctx.beginPath();
-                ctx.roundRect(x+2, y+2, w-4, h-4, 12);
-                ctx.strokeStyle = "#b8aa82";
-                ctx.setLineDash([5, 8]);
-                ctx.stroke();
-                ctx.setLineDash([]);
-                return;
-            }
-            // 画出多层边缘效果（从下往上画轮廓）
-            const maxDepth = Math.min(cnt, 3);
-            for(let depth = 0; depth < maxDepth; depth++){
-                let offsetX = depth * 2;
-                let offsetY = depth * -2;
-                let alpha = 0.85 - depth*0.15;
-                ctx.fillStyle = `rgba(210, 180, 120, ${alpha*0.5})`;
-                ctx.beginPath();
-                ctx.roundRect(x+offsetX, y+offsetY, w, h, 12);
-                ctx.fill();
-            }
-            // 主卡片
-            const topType = stackArray[stackArray.length-1];
-            const color = CARD_COLORS[topType-1];
-            const grad = ctx.createLinearGradient(x, y, x+w, y+h);
-            grad.addColorStop(0, color);
-            grad.addColorStop(1, color+"cc");
-            ctx.fillStyle = grad;
-            ctx.shadowBlur = 4;
-            ctx.shadowColor = "rgba(0,0,0,0.2)";
-            ctx.beginPath();
-            ctx.roundRect(x, y, w-1, h-1, 14);
-            ctx.fill();
-            ctx.fillStyle = "#ffffffcc";
-            ctx.font = `bold ${Math.floor(h*0.4)}px "Segoe UI Emoji", "Apple Color Emoji", system-ui`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.shadowBlur = 2;
-            ctx.fillStyle = "#1f1a0e";
-            ctx.fillText(CARD_ICONS[topType-1], x+w/2+1, y+h/2+1);
-            ctx.fillStyle = "#fff6e0";
-            ctx.fillText(CARD_ICONS[topType-1], x+w/2, y+h/2);
-            // 小型文字提示
-            ctx.font = `12px "Segoe UI", system-ui`;
-            ctx.fillStyle = "#2f2a1f";
-            ctx.fillText(CARD_ITEMS[topType-1].slice(0,4), x+w/2, y+h-8);
-            ctx.shadowBlur = 0;
-            // 若有高亮
-            if(isTopHighlight){
-                ctx.beginPath();
-                ctx.roundRect(x-2, y-2, w+2, h+2, 18);
-                ctx.strokeStyle = "#ffcf7a";
-                ctx.lineWidth = 3;
-                ctx.stroke();
-            }
-        }
-        
-        function drawSlotArea(){
-            const startX = 30;
-            const startY = H - 90;
-            const slotW = 72;
-            const slotH = 70;
-            const gap = 10;
-            ctx.font = "bold 16px 'Segoe UI'";
-            ctx.fillStyle = "#5d3a1c";
-            ctx.fillText("📥 待办槽位 (凑齐3件完成课题)", startX, startY-10);
-            for(let i=0; i<MAX_SLOT; i++){
-                let x = startX + i*(slotW+gap);
-                let y = startY;
-                ctx.fillStyle = "#e6d5b6";
-                ctx.shadowBlur = 0;
-                ctx.beginPath();
-                ctx.roundRect(x, y, slotW, slotH, 16);
-                ctx.fill();
-                ctx.strokeStyle = "#b69c6c";
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                if(i < slotCards.length){
-                    let cardId = slotCards[i];
-                    const icon = CARD_ICONS[cardId-1];
-                    const color = CARD_COLORS[cardId-1];
-                    ctx.fillStyle = color;
-                    ctx.beginPath();
-                    ctx.roundRect(x+4, y+4, slotW-8, slotH-8, 12);
-                    ctx.fill();
-                    ctx.font = `36px "Segoe UI Emoji"`;
-                    ctx.fillStyle = "#fef1cf";
-                    ctx.fillText(icon, x+slotW/2-6, y+slotH/2+6);
-                    ctx.font = `14px system-ui`;
-                    ctx.fillStyle = "#1f2c12";
-                    ctx.fillText(CARD_ITEMS[cardId-1].slice(0,2), x+slotW/2-10, y+slotH-12);
-                } else {
-                    ctx.fillStyle = "#cbbd93";
-                    ctx.font = "26px system-ui";
-                    ctx.fillText("📌", x+slotW/2-12, y+slotH/2+8);
-                }
-            }
-        }
-        
-        function drawGameBoard() {
-            const gridTopY = 30;
-            const gridLeftX = 15;
-            const cellW = (W - 40) / GRID_COLS;
-            const cellH = (H - 180) / GRID_ROWS;
-            for(let row=0; row<GRID_ROWS; row++){
-                for(let col=0; col<GRID_COLS; col++){
-                    let x = gridLeftX + col * cellW;
-                    let y = gridTopY + row * cellH;
-                    let stack = boardStacks[row][col];
-                    drawCardStack(x, y, cellW-6, cellH-6, stack, false);
-                    // 如果有卡片且该块可点击，显示小小标记
-                    if(stack.length > 0 && !gameOver){
-                        ctx.font = "12px monospace";
-                        ctx.fillStyle = "#ffeecc";
-                        ctx.shadowBlur = 0;
-                        ctx.fillText(`📖 ${stack.length}层`, x+5, y+cellH-12);
-                    } else if(stack.length === 0){
-                        ctx.fillStyle = "#a89f7d";
-                        ctx.font = "18px system-ui";
-                        ctx.fillText("✨", x+cellW/2-8, y+cellH/2);
-                    }
-                }
-            }
-        }
-        
-        function drawGameOverMsg() {
-            if(!gameOver) return;
-            ctx.fillStyle = "#000000aa";
-            ctx.fillRect(0,0,W,H);
-            ctx.font = "bold 32system-ui, 'Press Start 2P'";
-            ctx.fillStyle = "#fff2bf";
-            ctx.shadowBlur = 0;
-            const remaining = countTotalRemainCards();
-            if(remaining === 0){
-                ctx.fillText("🎉 毕业啦！全科优秀 🎉", W/2-180, H/2-40);
-                ctx.font = "20px monospace";
-                ctx.fillStyle = "#f9e281";
-                ctx.fillText("荣获学霸称号 + 小羊奖杯", W/2-160, H/2+25);
-            } else if(slotCards.length >= MAX_SLOT){
-                ctx.fillText("😭 挂科警告 · 槽位爆炸 😭", W/2-180, H/2-30);
-                ctx.font = "18px system-ui";
-                ctx.fillStyle = "#ffbe76";
-                ctx.fillText("点击「新的一课」重新挑战校园", W/2-150, H/2+40);
-            } else {
-                ctx.fillText("⛔ 游戏终止 ⛔", W/2-120, H/2-20);
-                ctx.font = "16px monospace";
-                ctx.fillStyle = "#f9d894";
-                ctx.fillText("按下方按钮开始新的学期", W/2-110, H/2+35);
-            }
-        }
-        
-        function renderGame(){
-            ctx.clearRect(0,0,W,H);
-            // 背景校园黑板纹理
-            ctx.fillStyle = "#fff1cf";
-            ctx.fillRect(0,0,W,H);
-            // 画格子装饰
-            for(let i=0;i<W;i+=35){
-                ctx.beginPath();
-                ctx.strokeStyle = "#ecddaa";
-                ctx.lineWidth = 0.6;
-                ctx.moveTo(i,0);
-                ctx.lineTo(i,H);
-                ctx.stroke();
-                ctx.moveTo(0,i%H);
-                ctx.lineTo(W,i%H);
-                ctx.stroke();
-            }
-            // 标题
-            ctx.font = "bold 22px 'Segoe UI', system-ui";
-            ctx.fillStyle = "#8b5a2b";
-            ctx.fillText("🐏 校园羊了个羊 · 堆叠大作战 📚", W/2-170, 28);
-            drawGameBoard();
-            drawSlotArea();
-            drawGameOverMsg();
-            // 提示剩余卡牌数量小标志
-            const remain = countTotalRemainCards();
-            ctx.font = "bold 14px monospace";
-            ctx.fillStyle = "#5b3f1c";
-            ctx.fillText(`📦 剩余校园物品: ${remain}`, W-130, H-12);
-        }
-        
-        // ---------- 坐标点击映射 ----------
-        function getClickedCard(mouseX, mouseY) {
-            const gridTopY = 30;
-            const gridLeftX = 15;
-            const cellW = (W - 40) / GRID_COLS;
-            const cellH = (H - 180) / GRID_ROWS;
-            for(let row=0; row<GRID_ROWS; row++){
-                for(let col=0; col<GRID_COLS; col++){
-                    let x0 = gridLeftX + col * cellW;
-                    let y0 = gridTopY + row * cellH;
-                    let x1 = x0 + cellW-6;
-                    let y1 = y0 + cellH-6;
-                    if(mouseX >= x0 && mouseX <= x1 && mouseY >= y0 && mouseY <= y1){
-                        if(boardStacks[row][col].length > 0 && !gameOver){
-                            return {row, col};
-                        } else {
-                            return null;
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-        
-        // ---------- 事件绑定 ----------
-        function handleCanvasClick(e){
-            if(gameOver) return;
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            let clientX, clientY;
-            if(e.touches){
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-                e.preventDefault();
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            }
-            let canvasX = (clientX - rect.left) * scaleX;
-            let canvasY = (clientY - rect.top) * scaleY;
-            if(canvasX >=0 && canvasX <= W && canvasY >=0 && canvasY <= H){
-                const target = getClickedCard(canvasX, canvasY);
-                if(target){
-                    handleCardClick(target.row, target.col);
-                }
-            }
-        }
-        
-        // 重置
-        function resetGame(){
-            initSchoolGame();
-            renderGame();
-        }
-        
-        // 添加事件
-        function bindEvents(){
-            canvas.addEventListener('click', handleCanvasClick);
-            canvas.addEventListener('touchstart', (e)=>{
-                e.preventDefault();
-                const rect = canvas.getBoundingClientRect();
-                const touch = e.touches[0];
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
-                let canvasX = (touch.clientX - rect.left) * scaleX;
-                let canvasY = (touch.clientY - rect.top) * scaleY;
-                if(canvasX >=0 && canvasX <= W && canvasY >=0 && canvasY <= H){
-                    const target = getClickedCard(canvasX, canvasY);
-                    if(target && !gameOver) handleCardClick(target.row, target.col);
-                }
-            });
-            const resetBtn = document.getElementById('resetGameBtn');
-            resetBtn.addEventListener('click', ()=>{
-                resetGame();
-            });
-        }
-        
-        // 初始化游戏
-        function startGame(){
-            initSchoolGame();
-            bindEvents();
-            renderGame();
-        }
-        
-        startGame();
-    })();
+    });
+
+    // 模拟当前播放音乐 (媒体橱窗)
+    const tracks = ['Ólafur Arnalds - re:member', 'Nils Frahm - Says', 'Kiasmos - Blurred'];
+    let idx = 0;
+    document.getElementById('nowPlaying').innerText = tracks[0];
+    setInterval(() => { idx = (idx+1)%tracks.length; document.getElementById('nowPlaying').innerText = tracks[idx]; }, 5000);
+
+    // 简易联系表单 (模拟)
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('✨ 感谢留言，我会尽快回复你的星信 ✨');
+        document.getElementById('contactForm').reset();
+    });
+
+    // 添加RSS说明 (不暴露复杂后端但提供理念)
+    console.log("RSS订阅源可用: /rss.xml (模拟概念) 或 通过 email newsletter 跟进");
 </script>
 </body>
 </html>
